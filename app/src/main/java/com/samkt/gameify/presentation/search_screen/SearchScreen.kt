@@ -57,6 +57,7 @@ fun SearchScreen(
                     contentDescription = null
                 )
             },
+            singleLine = true,
             placeholder = {
                 Text(
                     text = "Search",
