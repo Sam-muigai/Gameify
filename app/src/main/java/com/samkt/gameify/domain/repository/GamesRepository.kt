@@ -12,4 +12,6 @@ interface GamesRepository {
 
     fun getGameById(id:Int):Flow<Resources<Game>>
 
+    fun getAllGames():Flow<Resources<List<Games>>>
+
 }

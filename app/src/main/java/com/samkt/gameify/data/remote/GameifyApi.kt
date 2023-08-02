@@ -8,6 +8,9 @@ import retrofit2.http.Query
 interface GameifyApi {
 
     @GET("games")
+    suspend fun getAllGames():List<GamesDtoItem>
+
+    @GET("games")
     suspend fun getGamesByCategory(
         @Query("category") category:String
     ):List<GamesDtoItem>

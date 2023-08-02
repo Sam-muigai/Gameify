@@ -52,4 +52,20 @@ class GamesRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun getAllGames(): Flow<Resources<List<Games>>> {
+        return flow {
+            emit(Resources.Loading)
+            try {
+                val games = api.getAllGames().map { it.toGames() }
+                emit(Resources.Success(games))
+            }catch (e:IOException){
+                e.printStackTrace()
+                emit(Resources.Error(message = "No internet connection"))
+            }catch (e:Exception){
+                e.printStackTrace()
+                emit(Resources.Error(message = e.message))
+            }
+        }
+    }
 }

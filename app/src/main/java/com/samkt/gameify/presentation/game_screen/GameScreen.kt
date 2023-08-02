@@ -37,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.samkt.gameify.R
@@ -144,6 +145,17 @@ fun GameScreen(
                             Button(
                                 onClick = {
                                     // TODO: Implement explicit intent
+                                    val message = "Check out this game 👉 ${it.gameUrl}"
+                                    val shareIntent = Intent().apply {
+                                        action = Intent.ACTION_SEND
+                                        type = "text/plain"
+                                        putExtra(Intent.EXTRA_TEXT, message)
+                                    }
+
+                                    val chooserIntent = Intent.createChooser(shareIntent, "Share Via")
+                                    if (shareIntent.resolveActivity(context.packageManager) != null) {
+                                        startActivity(context,chooserIntent,null)
+                                    }
                                 }
                             ) {
                                 Icon(

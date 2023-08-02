@@ -44,7 +44,7 @@ fun GameCategoryItem(
         modifier = modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
-            .border(3.dp, Color.White, RoundedCornerShape(8.dp))
+            .border(1.dp, Color.White, RoundedCornerShape(8.dp))
             .clickable {
                        onClick.invoke()
             },

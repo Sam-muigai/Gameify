@@ -45,3 +45,4 @@ fun scaleOutPopExitTransition() = scaleOut(
 ) + fadeOut(
     animationSpec = tween(AnimDurationShort)
 )
+
