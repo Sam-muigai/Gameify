@@ -46,7 +46,7 @@ fun GameCategoryItem(
             .fillMaxWidth()
             .border(1.dp, Color.White, RoundedCornerShape(8.dp))
             .clickable {
-                       onClick.invoke()
+                onClick.invoke()
             },
         shape = RoundedCornerShape(8.dp),
         color = MaterialTheme.colorScheme.background
@@ -57,9 +57,10 @@ fun GameCategoryItem(
                     .width(120.dp)
                     .height(135.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                model = ImageRequest.Builder(context).data(imageUrl).build(),
+                model = ImageRequest.Builder(context).crossfade(200).data(imageUrl).build(),
                 contentScale = ContentScale.Crop,
-                contentDescription = null
+                contentDescription = null,
+                placeholder = painterResource(id = R.drawable.placeholder)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.fillMaxWidth()) {

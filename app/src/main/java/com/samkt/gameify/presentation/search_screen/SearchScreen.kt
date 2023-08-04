@@ -1,6 +1,8 @@
 package com.samkt.gameify.presentation.search_screen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -79,23 +81,29 @@ fun SearchScreen(
             shape = RoundedCornerShape(100)
         )
         Spacer(modifier = Modifier.height(8.dp))
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            content = {
-                items(state.games) {
-                    GameCategoryItem(
-                        imageUrl = it.thumbnail,
-                        title = it.title,
-                        genre = it.genre,
-                        releaseDate = it.releaseDate,
-                        onClick = {
-                            navigator.navigate(GameScreenDestination(it.id))
-                        }
-                    )
+        AnimatedVisibility(
+            visible = !state.isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                content = {
+                    items(state.games) {
+                        GameCategoryItem(
+                            imageUrl = it.thumbnail,
+                            title = it.title,
+                            genre = it.genre,
+                            releaseDate = it.releaseDate,
+                            onClick = {
+                                navigator.navigate(GameScreenDestination(it.id))
+                            }
+                        )
+                    }
                 }
-            }
-        )
+            )
+        }
         state.errorMessage?.let {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -105,7 +113,11 @@ fun SearchScreen(
             }
         }
 
-        AnimatedVisibility(visible = state.isLoading) {
+        AnimatedVisibility(
+            visible = state.isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
