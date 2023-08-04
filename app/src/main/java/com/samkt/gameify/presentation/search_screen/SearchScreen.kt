@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -50,20 +51,12 @@ fun SearchScreen(
     navigator: DestinationsNavigator,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val focusRequester = remember { FocusRequester() }
     val state = viewModel.uiState.collectAsState().value
-    LaunchedEffect(
-        key1 = true,
-        block = {
-            focusRequester.requestFocus()
-        }
-    )
     Column {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .focusRequester(focusRequester),
+                .padding(8.dp),
             value = state.searchTerm,
             onValueChange = {
                 viewModel.onEvent(SearchScreenEvents.OnValueChange(it))

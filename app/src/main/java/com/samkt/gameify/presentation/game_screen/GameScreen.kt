@@ -44,6 +44,7 @@ import com.samkt.gameify.R
 import com.samkt.gameify.presentation.game_screen.components.GameImage
 import com.samkt.gameify.presentation.navigation.NavigationTransition
 import com.samkt.gameify.ui.theme.poppins
+import com.samkt.gameify.util.shareMessage
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Destination(style = NavigationTransition::class)
@@ -146,16 +147,7 @@ fun GameScreen(
                                 onClick = {
                                     // TODO: Implement explicit intent
                                     val message = "Check out this game 👉 ${it.gameUrl}"
-                                    val shareIntent = Intent().apply {
-                                        action = Intent.ACTION_SEND
-                                        type = "text/plain"
-                                        putExtra(Intent.EXTRA_TEXT, message)
-                                    }
-
-                                    val chooserIntent = Intent.createChooser(shareIntent, "Share Via")
-                                    if (shareIntent.resolveActivity(context.packageManager) != null) {
-                                        startActivity(context,chooserIntent,null)
-                                    }
+                                    shareMessage(context,message)
                                 }
                             ) {
                                 Icon(
