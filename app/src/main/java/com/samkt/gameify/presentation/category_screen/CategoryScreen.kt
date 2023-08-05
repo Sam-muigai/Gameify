@@ -46,7 +46,10 @@ fun CategoryScreen(
 ) {
     val state = viewModel.uiState.collectAsState().value
     Scaffold { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             LazyColumn(
                 modifier = Modifier
                     .padding(paddingValues)

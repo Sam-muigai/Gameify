@@ -58,8 +58,18 @@ fun HomeScreen(
 ) {
     val state = viewModel.uiState.collectAsState().value
     Scaffold(
-        modifier = Modifier
+        modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
+        AnimatedVisibility(
+            visible = state.isLoading
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(strokeWidth = 2.dp)
+            }
+        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -67,60 +77,53 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            AnimatedVisibility(
-                visible = state.isLoading
-            ) {
-                CircularProgressIndicator(strokeWidth = 2.dp)
-            }
-            AnimatedVisibility(visible = !state.isLoading) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    content = {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                content = {
+                    item {
+                        TopBar(navigator = navigator)
+                    }
+                    item {
+                        GamesRow(
+                            games = state.sportsGames,
+                            navigator = navigator,
+                            title = "Sports"
+                        )
+                    }
+                    item {
+                        GamesRow(
+                            games = state.shooterGames,
+                            navigator = navigator,
+                            title = "Shooting"
+                        )
+                    }
+                    item {
+                        GamesRow(
+                            games = state.fightingGames,
+                            navigator = navigator,
+                            title = "Fighting"
+                        )
+                    }
+                    item {
+                        GamesRow(
+                            games = state.racingGames,
+                            navigator = navigator,
+                            title = "Racing"
+                        )
+                    }
+                    state.errorMessage?.let {
                         item {
-                            TopBar(navigator = navigator)
-                        }
-                        item {
-                            GamesRow(
-                                games = state.sportsGames,
-                                navigator = navigator,
-                                title = "Sports"
-                            )
-                        }
-                        item {
-                            GamesRow(
-                                games = state.shooterGames,
-                                navigator = navigator,
-                                title = "Shooting"
-                            )
-                        }
-                        item {
-                            GamesRow(
-                                games = state.fightingGames,
-                                navigator = navigator,
-                                title = "Fighting"
-                            )
-                        }
-                        item {
-                            GamesRow(
-                                games = state.racingGames,
-                                navigator = navigator,
-                                title = "Racing"
-                            )
-                        }
-                        state.errorMessage?.let {
-                            item {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(text = it)
-                                }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(text = it)
                             }
                         }
                     }
-                )
-            }
+                }
+            )
         }
     }
 }

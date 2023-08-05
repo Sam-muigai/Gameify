@@ -7,42 +7,38 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 
-private const val AnimDurationLong = 500
-private const val AnimDurationShort = 300
 
-// Enter transition when you navigate to a screen
+
 @ExperimentalAnimationApi
 fun scaleInEnterTransition() = scaleIn(
     initialScale = .9f,
-    animationSpec = tween(AnimDurationLong)
+    animationSpec = tween(500)
 ) + fadeIn(
-    animationSpec = tween(AnimDurationShort)
+    animationSpec = tween(300)
 )
 
-// Exit transition when you navigate to a screen
+
 @ExperimentalAnimationApi
 fun scaleOutExitTransition() = scaleOut(
-    targetScale = 1.1f,//default `rootDefaultAnimations` means no animations
-    animationSpec = tween(AnimDurationShort)
+    targetScale = 1.1f,
+    animationSpec = tween(300)
 ) + fadeOut(
-    animationSpec = tween(AnimDurationShort)
+    animationSpec = tween(300)
 )
 
-// Enter transition of a screen when you pop to it
 @ExperimentalAnimationApi
 fun scaleInPopEnterTransition() = scaleIn(
     initialScale = 1.1f,
-    animationSpec = tween(AnimDurationLong)
+    animationSpec = tween(500)
 ) + fadeIn(
-    animationSpec = tween(AnimDurationShort)
+    animationSpec = tween(300)
 )
 
-// Exit transition of a screen you are popping from
 @ExperimentalAnimationApi
 fun scaleOutPopExitTransition() = scaleOut(
     targetScale = .9f,
-    animationSpec = tween(AnimDurationShort)
+    animationSpec = tween(300)
 ) + fadeOut(
-    animationSpec = tween(AnimDurationShort)
+    animationSpec = tween(300)
 )
 
