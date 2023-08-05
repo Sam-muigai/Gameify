@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samkt.gameify.R
+import com.samkt.gameify.presentation.home_screen.HomeScreenState
 import com.samkt.gameify.ui.theme.GameifyTheme
 import com.samkt.gameify.ui.theme.poppins
 
@@ -44,53 +45,58 @@ fun GameItem(
     onGameClicked: () -> Unit,
 ) {
     val context = LocalContext.current
+    val isLoading = HomeScreenState().isLoading
     Column(
         modifier = modifier.width(130.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .height(160.dp)
-                .width(120.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(
-                    MaterialTheme.colorScheme.background.copy(
-                        alpha = 0.1f
-                    )
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(strokeWidth = 2.dp)
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(imageUrl)
-                    .crossfade(500)
-                    .build(),
-                contentDescription = null,
+        if (isLoading) {
+Text(text = "Loading")
+        } else {
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clickable {
-                        onGameClicked.invoke()
-                    },
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.placeholder)
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = poppins,
-                    fontSize = 12.sp
-                ),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+                    .height(160.dp)
+                    .width(120.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(
+                        MaterialTheme.colorScheme.background.copy(
+                            alpha = 0.1f
+                        )
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(strokeWidth = 2.dp)
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(imageUrl)
+                        .crossfade(500)
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            onGameClicked.invoke()
+                        },
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.placeholder)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = poppins,
+                        fontSize = 12.sp
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
     }
 }

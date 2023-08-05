@@ -40,7 +40,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun GameifyTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+ darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colorScheme =  DarkColorScheme
