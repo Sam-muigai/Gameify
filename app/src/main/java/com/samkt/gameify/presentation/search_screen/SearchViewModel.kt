@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,8 +28,9 @@ class SearchViewModel @Inject constructor(
     private var _uiState = MutableStateFlow(SearchScreenStates())
     val uiState = _uiState.asStateFlow()
 
+    private var cachedGames:List<Games>? = null
     init {
-        getAllGames(searchTerm = "")
+        getAllGames()
     }
 
     private var job: Job? = null
@@ -36,33 +38,37 @@ class SearchViewModel @Inject constructor(
     fun onEvent(event: SearchScreenEvents) {
         when (event) {
             is SearchScreenEvents.OnValueChange -> {
+                val word = event.value.lowercase()
                 _uiState.update {
                     it.copy(
-                        searchTerm = event.value
+                        searchTerm = word
                     )
                 }
                 job?.cancel()
-                job = viewModelScope.launch {
+                job  = viewModelScope.launch{
                     delay(500)
-                    getAllGames(searchTerm = uiState.value.searchTerm)
+                    _uiState.update{
+                        val games = if (word.isNotEmpty()){
+                            cachedGames?.filter { game -> game.title.lowercase().contains(word) } ?: emptyList()
+                        }else{
+                            cachedGames
+                        }
+                        it.copy(
+                            games = games ?: emptyList()
+                        )
+                    }
                 }
-                Log.d(RESULT,"Typing")
             }
         }
     }
 
-    private fun getAllGames(searchTerm: String) {
+    private fun getAllGames() {
        viewModelScope.launch {
           repository.getAllGames().onEach { result ->
                 when (result) {
                     is Resources.Success -> {
-                        val games = if (searchTerm.isNotEmpty())
-                            result.data?.filter {
-                                it.title.lowercase(Locale.ROOT).contains(searchTerm.lowercase(Locale.ROOT))
-                            }
-                        else
-                            result.data
-
+                        val games = result.data
+                        cachedGames = games
                         Log.d(RESULT,games.toString())
                         _uiState.update {
                             it.copy(
