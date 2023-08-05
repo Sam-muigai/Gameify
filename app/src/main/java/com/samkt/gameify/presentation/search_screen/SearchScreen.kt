@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +39,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.samkt.gameify.presentation.components.GameCategoryItem
@@ -53,39 +55,43 @@ fun SearchScreen(
     navigator: DestinationsNavigator,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val state = viewModel.uiState.collectAsState().value
-    Column {
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            value = state.searchTerm,
-            onValueChange = {
-                viewModel.onEvent(SearchScreenEvents.OnValueChange(it))
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
-                )
-            },
-            singleLine = true,
-            placeholder = {
-                Text(
-                    text = "Search",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontFamily = poppins
+    val state = viewModel.uiState.collectAsStateWithLifecycle().value
+    Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
+        AnimatedVisibility(visible = state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(strokeWidth = 2.dp)
+            }
+        }
+        Column(modifier = Modifier.padding(paddingValues)) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                value = state.searchTerm,
+                onValueChange = {
+                    viewModel.onEvent(SearchScreenEvents.OnValueChange(it))
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null
                     )
-                )
-            },
-            shape = RoundedCornerShape(100)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        AnimatedVisibility(
-            visible = !state.isLoading,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
+                },
+                singleLine = true,
+                placeholder = {
+                    Text(
+                        text = "Search",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontFamily = poppins
+                        )
+                    )
+                },
+                shape = RoundedCornerShape(100)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(
                 contentPadding = PaddingValues(vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -103,27 +109,15 @@ fun SearchScreen(
                     }
                 }
             )
-        }
-        state.errorMessage?.let {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = it)
-            }
-        }
-
-        AnimatedVisibility(
-            visible = state.isLoading,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+            state.errorMessage?.let {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = it)
+                }
             }
         }
     }
+
 }

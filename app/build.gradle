@@ -78,6 +78,7 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation "androidx.lifecycle:lifecycle-runtime-compose"
 
     //Compose destinations
     implementation 'io.github.raamcosta.compose-destinations:core:1.7.41-beta'
@@ -99,10 +100,5 @@ dependencies {
 
     //Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
-
-
-
-
-
 
 }

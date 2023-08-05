@@ -70,6 +70,7 @@ class SearchViewModel @Inject constructor(
                         val games = result.data
                         cachedGames = games
                         Log.d(RESULT,games.toString())
+                        delay(1000)
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
@@ -77,7 +78,6 @@ class SearchViewModel @Inject constructor(
                             )
                         }
                     }
-
                     is Resources.Error -> {
                         _uiState.update {
                             it.copy(
