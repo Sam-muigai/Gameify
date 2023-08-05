@@ -32,7 +32,6 @@ import com.samkt.gameify.ui.theme.poppins
 @Composable
 fun CategoryGames(
     games: List<Games>,
-    loading: Boolean,
     title: String,
     onGameClicked: (Int) -> Unit,
     onAllClicked: () -> Unit
@@ -65,16 +64,4 @@ fun CategoryGames(
         games = games,
         onGameClicked = onGameClicked
     )
-    if (
-        loading
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(strokeWidth = 2.dp)
-        }
-    }
 }

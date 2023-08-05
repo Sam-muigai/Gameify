@@ -26,20 +26,21 @@ class CategoryViewModel @Inject constructor(
 
 
     init {
-        val category = savedStateHandle.get<String>("category") ?: "anime"
+        val category = savedStateHandle.get<String>("category") ?: ""
         getGames(category)
     }
 
     private fun getGames(category: String) {
         viewModelScope.launch {
-            repository.getGamesByCategory(category).onEach { result ->
+            repository.getAllGames().onEach { result ->
                 when(result){
                     is Resources.Success ->{
                         delay(2000)
+                        val filterGames = result.data?.filter { it.genre.lowercase() == category.lowercase() } ?: emptyList()
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                games = result.data ?: emptyList()
+                                games = filterGames
                             )
                         }
                     }

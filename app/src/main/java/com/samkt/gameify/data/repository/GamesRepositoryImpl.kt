@@ -17,22 +17,6 @@ import javax.inject.Inject
 class GamesRepositoryImpl @Inject constructor(
     private val api: GameifyApi
 ):GamesRepository{
-    override fun getGamesByCategory(category: String): Flow<Resources<List<Games>>> = flow {
-       emit(Resources.Loading)
-        try {
-            val games = api.getGamesByCategory(category).map { it.toGames() }
-            emit(Resources.Success(games))
-        }catch (e:IOException){
-            e.printStackTrace()
-            emit(Resources.Error(message = "No internet connection!!"))
-        }catch (e:HttpException){
-            e.printStackTrace()
-            emit(Resources.Error(message = "Server error occurred!!"))
-        }catch (e:Exception){
-            e.printStackTrace()
-            emit(Resources.Error(message = e.message))
-        }
-    }
 
     override fun getGameById(id: Int): Flow<Resources<Game>> {
         return flow {
@@ -61,7 +45,7 @@ class GamesRepositoryImpl @Inject constructor(
                 emit(Resources.Success(games))
             }catch (e:IOException){
                 e.printStackTrace()
-                emit(Resources.Error(message = "No internet connection"))
+                emit(Resources.Error(message = "No internet connection!!"))
             }catch (e:Exception){
                 e.printStackTrace()
                 emit(Resources.Error(message = e.message))

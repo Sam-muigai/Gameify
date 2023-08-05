@@ -1,6 +1,7 @@
 package com.samkt.gameify.presentation.home_screen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import com.samkt.gameify.presentation.destinations.GameScreenDestination
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.presentation.category_screen.CategoryScreen
 import com.samkt.gameify.presentation.destinations.CategoryScreenDestination
 import com.samkt.gameify.presentation.destinations.SearchScreenDestination
@@ -47,7 +49,7 @@ import com.samkt.gameify.presentation.search_screen.SearchScreen
 import com.samkt.gameify.ui.theme.poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Destination(start = true,style = NavigationTransition::class)
+@Destination(start = true, style = NavigationTransition::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
@@ -55,116 +57,113 @@ fun HomeScreen(
 ) {
     val state = viewModel.uiState.collectAsState().value
     Scaffold(
-        modifier = Modifier
+        modifier = Modifier,
+        topBar = {
+            Column {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        modifier = Modifier,
+                        text = "GAMEIFY",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            fontFamily = poppins,
+                            fontSize = 27.sp
+                        )
+                    )
+                }
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable {
+                            navigator.navigate(SearchScreenDestination())
+                        },
+                    value = "",
+                    onValueChange = {
+                        navigator.navigate(SearchScreenDestination())
+                    },
+                    enabled = false,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null
+                        )
+                    },
+                    placeholder = {
+                        Text(
+                            text = "Search",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontFamily = poppins
+                            )
+                        )
+                    },
+                    shape = RoundedCornerShape(100)
+                )
+            }
+        }
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)) {
-                Text(
-                    modifier = Modifier,
-                    text = "GAMEIFY",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.ExtraBold,
-                        fontFamily = poppins,
-                        fontSize = 27.sp
+            verticalArrangement = Arrangement.Center,
+        ) {
+            if (state.isLoading) {
+                CircularProgressIndicator(strokeWidth = 2.dp)
+            } else
+                Column {
+                    GamesRow(
+                        games = state.sportsGames,
+                        navigator = navigator,
+                        title = "Sports"
                     )
-                )
-            }
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .clickable {
-                        navigator.navigate(SearchScreenDestination())
-                    },
-                value = "",
-                onValueChange = {
-                    navigator.navigate(SearchScreenDestination())
-                },
-                enabled = false,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null
+                    GamesRow(
+                        games = state.shooterGames,
+                        navigator = navigator,
+                        title = "Shooting"
                     )
-                },
-                placeholder = {
-                    Text(
-                        text = "Search",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontFamily = poppins
-                        )
+                    GamesRow(
+                        games = state.fightingGames,
+                        navigator = navigator,
+                        title = "Fighting"
                     )
-                },
-                shape = RoundedCornerShape(100)
-            )
-            state.errorMessage?.let {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontFamily = poppins
-                        )
+                    GamesRow(
+                        games = state.racingGames,
+                        navigator = navigator,
+                        title = "Racing"
                     )
                 }
-            }
-                ?:
-            Column {
-                CategoryGames(
-                    games = state.sportsGames,
-                    loading = state.isSportsGamesLoading,
-                    title = "Sports",
-                    onAllClicked = {
-                        navigator.navigate((CategoryScreenDestination("sports")))
-                    },
-                    onGameClicked = {
-                        navigator.navigate(GameScreenDestination(id = it))
-                    }
-                )
-                CategoryGames(
-                    games = state.shooterGames,
-                    loading = state.isShooterGamesLoading,
-                    title = "Shooting",
-                    onAllClicked = {
-                        navigator.navigate((CategoryScreenDestination("shooter")))
-                    },
-                    onGameClicked = {
-                        navigator.navigate(GameScreenDestination(id = it))
-                    }
-                )
-                CategoryGames(
-                    games = state.animeGames,
-                    loading = state.isAnimeGamesLoading,
-                    title = "Anime",
-                    onAllClicked = {
-                        navigator.navigate((CategoryScreenDestination("anime")))
-                    },
-                    onGameClicked = {
-                        navigator.navigate(GameScreenDestination(id = it))
-                    }
-                )
-                CategoryGames(
-                    games = state.racingGames,
-                    loading = state.isRacingGamesLoading,
-                    title = "Racing",
-                    onAllClicked = {
-                        navigator.navigate((CategoryScreenDestination("racing")))
-                    },
-                    onGameClicked = {
-                        navigator.navigate(GameScreenDestination(id = it))
-                    }
-                )
+            state.errorMessage?.let {
+                Text(text = it)
             }
         }
     }
+}
+
+@Composable
+fun GamesRow(
+    games: List<Games>,
+    title: String,
+    navigator: DestinationsNavigator
+) {
+    if (games.isNotEmpty()) {
+        val sampleGame = games[0]
+        CategoryGames(
+            games = games,
+            title = title,
+            onAllClicked = {
+                navigator.navigate((CategoryScreenDestination(sampleGame.genre)))
+            },
+            onGameClicked = {
+                navigator.navigate(GameScreenDestination(id = it))
+            }
+        )
+    } else (Box(modifier = Modifier))
 }

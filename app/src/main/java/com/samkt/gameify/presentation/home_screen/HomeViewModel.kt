@@ -1,10 +1,12 @@
 package com.samkt.gameify.presentation.home_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -14,6 +16,8 @@ import kotlinx.coroutines.launch
 import java.lang.Error
 import javax.inject.Inject
 
+
+const val RESULT = "result"
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: GamesRepository
@@ -23,134 +27,53 @@ class HomeViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        getShooterGames()
-        getSportsGames()
-        getRacingGames()
-        getAnimeGames()
+        getAllGames()
     }
 
-    private fun getSportsGames(category: String = "sports") {
+    private fun getAllGames() {
         viewModelScope.launch {
-            repository.getGamesByCategory(category).onEach { result ->
-                when (result) {
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(isSportsGamesLoading = true)
-                        }
-                    }
-                    is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isSportsGamesLoading = false,
-                                errorMessage = result.message
-                            )
-                        }
-                    }
-                    is Resources.Success -> {
-                        val games = result.data ?: emptyList()
+            repository.getAllGames().onEach { result->
+                when(result){
+                    is Resources.Success ->{
+                        val games = result.data
+                        val shootingGames = games?.filter { it.genre.lowercase() == "shooter" } ?: emptyList()
+                        val racingGames = games?.filter { it.genre.lowercase() == "racing" } ?: emptyList()
+                        val sportsGames = games?.filter { it.genre.lowercase() == "sports" } ?: emptyList()
+                        val fightingGames = games?.filter { it.genre.lowercase() == "fighting" } ?: emptyList()
+                        delay(1000)
                         _uiState.update {
                             it.copy(
-                                isSportsGamesLoading = false,
-                                sportsGames = games
+                                isLoading = false,
+                                shooterGames = shootingGames,
+                                racingGames = racingGames,
+                                sportsGames = sportsGames,
+                                fightingGames = fightingGames
                             )
                         }
+                        Log.d(RESULT,(result.data ?: emptyList()).toString())
+                    }
+                    is Resources.Error ->{
+                        val errorMessage = result.message ?: "Error occurred"
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = errorMessage
+                            )
+                        }
+                        Log.d(RESULT, errorMessage)
+                    }
+                    is Resources.Loading->{
+                        _uiState.update {
+                            it.copy(
+                                isLoading = true
+                            )
+                        }
+                        Log.d(RESULT,"loading")
                     }
                 }
             }.launchIn(this)
         }
     }
 
-    private fun getRacingGames(category: String = "racing") {
-        viewModelScope.launch {
-            repository.getGamesByCategory(category).onEach { result ->
-                when (result) {
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(isRacingGamesLoading = true)
-                        }
-                    }
-                    is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isRacingGamesLoading = false,
-                                errorMessage = result.message
-                            )
-                        }
-                    }
-                    is Resources.Success -> {
-                        val games = result.data ?: emptyList()
-                        _uiState.update {
-                            it.copy(
-                                isRacingGamesLoading = false,
-                                racingGames = games
-                            )
-                        }
-                    }
-                }
-            }.launchIn(this)
-        }
-    }
-
-    private fun getShooterGames(category: String = "shooter") {
-        viewModelScope.launch {
-            repository.getGamesByCategory(category).onEach { result ->
-                when (result) {
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(isShooterGamesLoading = true)
-                        }
-                    }
-                    is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isShooterGamesLoading = false,
-                                errorMessage = result.message
-                            )
-                        }
-                    }
-                    is Resources.Success -> {
-                        val games = result.data ?: emptyList()
-                        _uiState.update {
-                            it.copy(
-                                isShooterGamesLoading = false,
-                                shooterGames = games
-                            )
-                        }
-                    }
-                }
-            }.launchIn(this)
-        }
-    }
-
-    private fun getAnimeGames(category: String = "anime") {
-        viewModelScope.launch {
-            repository.getGamesByCategory(category).onEach { result ->
-                when (result) {
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(isAnimeGamesLoading = true)
-                        }
-                    }
-                    is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isAnimeGamesLoading = false,
-                                errorMessage = result.message
-                            )
-                        }
-                    }
-                    is Resources.Success -> {
-                        val games = result.data ?: emptyList()
-                        _uiState.update {
-                            it.copy(
-                                isAnimeGamesLoading = false,
-                                animeGames = games
-                            )
-                        }
-                    }
-                }
-            }.launchIn(this)
-        }
-    }
 
 }

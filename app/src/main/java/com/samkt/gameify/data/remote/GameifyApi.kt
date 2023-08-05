@@ -10,11 +10,6 @@ interface GameifyApi {
     @GET("games")
     suspend fun getAllGames():List<GamesDtoItem>
 
-    @GET("games")
-    suspend fun getGamesByCategory(
-        @Query("category") category:String
-    ):List<GamesDtoItem>
-
     @GET("game")
     suspend fun getGameById(
         @Query("id") id:Int

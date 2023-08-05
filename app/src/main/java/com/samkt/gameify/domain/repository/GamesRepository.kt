@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GamesRepository {
 
-     fun getGamesByCategory(category:String):Flow<Resources<List<Games>>>
 
     fun getGameById(id:Int):Flow<Resources<Game>>
 
