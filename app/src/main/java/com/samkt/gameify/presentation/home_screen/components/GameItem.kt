@@ -51,7 +51,7 @@ fun GameItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (isLoading) {
-Text(text = "Loading")
+            Text(text = "Loading")
         } else {
             Box(
                 modifier = Modifier

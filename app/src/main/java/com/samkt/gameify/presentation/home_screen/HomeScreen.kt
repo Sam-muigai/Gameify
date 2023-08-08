@@ -66,19 +66,6 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
-        AnimatedVisibility(
-            visible = state.isLoading
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 120.dp),
-                content = {
-                    items(5){
-                        ShimmerLoadingNow()
-                    }
-                })
-        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -86,53 +73,64 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                content = {
-                    item {
-                        TopBar(navigator = navigator)
-                    }
-                    item {
-                        GamesRow(
-                            games = state.sportsGames,
-                            navigator = navigator,
-                            title = "Sports"
-                        )
-                    }
-                    item {
-                        GamesRow(
-                            games = state.shooterGames,
-                            navigator = navigator,
-                            title = "Shooting"
-                        )
-                    }
-                    item {
-                        GamesRow(
-                            games = state.fightingGames,
-                            navigator = navigator,
-                            title = "Fighting"
-                        )
-                    }
-                    item {
-                        GamesRow(
-                            games = state.racingGames,
-                            navigator = navigator,
-                            title = "Racing"
-                        )
-                    }
-                    state.errorMessage?.let {
+            TopBar(navigator = navigator)
+            Box(modifier = Modifier.fillMaxSize()){
+                if(state.isLoading) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        content = {
+                            items(5){
+                                ShimmerLoadingNow()
+                            }
+                        }
+                    )
+                }
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    content = {
                         item {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(text = it)
+                            GamesRow(
+                                games = state.sportsGames,
+                                navigator = navigator,
+                                title = "Sports"
+                            )
+                        }
+                        item {
+                            GamesRow(
+                                games = state.shooterGames,
+                                navigator = navigator,
+                                title = "Shooting"
+                            )
+                        }
+                        item {
+                            GamesRow(
+                                games = state.fightingGames,
+                                navigator = navigator,
+                                title = "Fighting"
+                            )
+                        }
+                        item {
+                            GamesRow(
+                                games = state.racingGames,
+                                navigator = navigator,
+                                title = "Racing"
+                            )
+                        }
+                        state.errorMessage?.let {
+                            item {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = it)
+                                }
                             }
                         }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
