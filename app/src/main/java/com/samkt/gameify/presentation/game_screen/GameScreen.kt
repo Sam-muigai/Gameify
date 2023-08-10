@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,7 +56,10 @@ fun GameScreen(
 ) {
     val context = LocalContext.current
     val state = viewModel.uiState.collectAsState().value
-    Scaffold(modifier = Modifier) { paddingValues ->
+    Scaffold(
+        modifier = Modifier,
+        contentWindowInsets = WindowInsets(0.dp,0.dp,0.dp,0.dp)
+    ) { paddingValues ->
         state.errorMessage?.let {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -129,7 +133,7 @@ fun GameScreen(
                         ) {
                             Button(
                                 onClick = {
-                                    ContextCompat.startActivity(
+                                    startActivity(
                                         context,
                                         Intent(ACTION_VIEW, Uri.parse(it.gameUrl)),
                                         null
