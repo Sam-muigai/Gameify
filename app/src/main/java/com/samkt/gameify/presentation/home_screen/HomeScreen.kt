@@ -73,13 +73,15 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            TopBar(navigator = navigator)
             Box(modifier = Modifier.fillMaxSize()){
                 if(state.isLoading) {
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize(),
                         content = {
+                            item {
+                                TopBar(navigator = navigator)
+                            }
                             items(5){
                                 ShimmerLoadingNow()
                             }
@@ -89,6 +91,9 @@ fun HomeScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     content = {
+                        item {
+                            TopBar(navigator = navigator)
+                        }
                         item {
                             GamesRow(
                                 games = state.sportsGames,
