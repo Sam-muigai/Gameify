@@ -6,4 +6,4 @@ MVVM is a software architectural pattern that separates the presentation logic (
 ## Demo
 
 ### Home Screen
-<img src="screenshots/game.jpeg" width="250"/>
+<img src="screenshots/spider.png" width="250"/>
