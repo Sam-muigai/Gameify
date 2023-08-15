@@ -54,7 +54,4 @@ class GamesRepositoryImpl @Inject constructor(
         }
     }
 
-     fun getAllGame(): Flow<Resources<List<GamesDtoItem>>> {
-       return handleResponse ( response = {api.getAllGames()} )
-    }
 }
