@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.samkt.gameify.R
 import com.samkt.gameify.presentation.game_screen.components.GameImage
@@ -55,7 +56,7 @@ fun GameScreen(
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val state = viewModel.uiState.collectAsState().value
+    val state = viewModel.uiState.collectAsStateWithLifecycle().value
     Scaffold(
         modifier = Modifier,
         contentWindowInsets = WindowInsets(0.dp,0.dp,0.dp,0.dp)

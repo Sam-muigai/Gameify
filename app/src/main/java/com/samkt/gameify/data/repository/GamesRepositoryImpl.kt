@@ -8,6 +8,7 @@ import com.samkt.gameify.domain.model.Game
 import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
+import com.samkt.gameify.util.handleResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -51,5 +52,9 @@ class GamesRepositoryImpl @Inject constructor(
                 emit(Resources.Error(message = e.message))
             }
         }
+    }
+
+     fun getAllGame(): Flow<Resources<List<GamesDtoItem>>> {
+       return handleResponse ( response = {api.getAllGames()} )
     }
 }

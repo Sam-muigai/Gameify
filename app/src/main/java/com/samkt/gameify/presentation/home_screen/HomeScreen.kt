@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.samkt.gameify.domain.model.Games
@@ -62,7 +63,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
-    val state = viewModel.uiState.collectAsState().value
+    val state = viewModel.uiState.collectAsStateWithLifecycle().value
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
