@@ -1,6 +1,5 @@
 package com.samkt.gameify.presentation.homeScreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.samkt.gameify.domain.model.Games
@@ -71,6 +70,30 @@ class HomeViewModel @Inject constructor(
             }.launchIn(this)
         }
     }
+
+    val categories = listOf(
+        "mmorpg",
+        "strategy",
+        "moba",
+        "social",
+        "sandbox",
+        "survival",
+        "pvp",
+        "pve",
+        "pixel",
+        "voxel",
+        "zombie",
+        "anime",
+        "fantasy",
+        "sci-fi",
+        "fighting",
+        "action",
+        "military",
+        "horror",
+        "flight",
+        "mmorts",
+        "anime",
+    )
 }
 
 data class HomeScreenState(

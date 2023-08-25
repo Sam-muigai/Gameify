@@ -1,21 +1,20 @@
 package com.samkt.gameify.presentation.homeScreen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,14 +27,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.presentation.components.ShimmerLoadingNow
 import com.samkt.gameify.presentation.destinations.CategoryScreenDestination
 import com.samkt.gameify.presentation.destinations.GameScreenDestination
 import com.samkt.gameify.presentation.destinations.SearchScreenDestination
 import com.samkt.gameify.presentation.homeScreen.components.CategoryGames
+import com.samkt.gameify.presentation.homeScreen.components.HomeTopBar
 import com.samkt.gameify.presentation.navigation.NavigationTransition
 import com.samkt.gameify.ui.theme.poppins
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true, style = NavigationTransition::class)
@@ -49,28 +49,26 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center,
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (state.isLoading) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        content = {
-                            item {
-                                HomeTopBar(onClick = {})
-                            }
-                            items(5) {
-                                ShimmerLoadingNow()
-                            }
-                        },
-                    )
-                }
+            if (state.isLoading) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    content = {
+                        item {
+                            HomeTopBar(onClick = {})
+                        }
+                        items(5) {
+                            ShimmerLoadingNow()
+                        }
+                    },
+                )
+            } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     content = {
@@ -82,122 +80,123 @@ fun HomeScreen(
                             )
                         }
                         item {
-                            GamesRow(
+                            val sampleGame = state.sportsGames[0]
+                            CategoryGames(
                                 games = state.sportsGames,
-                                navigator = navigator,
                                 title = "Sports",
+                                onAllClicked = {
+                                    navigator.navigate((CategoryScreenDestination(sampleGame.genre)))
+                                },
+                                onGameClicked = {
+                                    navigator.navigate(GameScreenDestination(id = it))
+                                },
                             )
                         }
                         item {
-                            GamesRow(
+                            val sampleGame = state.shooterGames[0]
+                            CategoryGames(
                                 games = state.shooterGames,
-                                navigator = navigator,
                                 title = "Shooting",
+                                onAllClicked = {
+                                    navigator.navigate((CategoryScreenDestination(sampleGame.genre)))
+                                },
+                                onGameClicked = {
+                                    navigator.navigate(GameScreenDestination(id = it))
+                                },
                             )
                         }
                         item {
-                            GamesRow(
+                            val sampleGame = state.fightingGames[0]
+                            CategoryGames(
                                 games = state.fightingGames,
-                                navigator = navigator,
                                 title = "Fighting",
+                                onAllClicked = {
+                                    navigator.navigate((CategoryScreenDestination(sampleGame.genre)))
+                                },
+                                onGameClicked = {
+                                    navigator.navigate(GameScreenDestination(id = it))
+                                },
                             )
                         }
                         item {
-                            GamesRow(
+                            val sampleGame = state.racingGames[0]
+                            CategoryGames(
                                 games = state.racingGames,
-                                navigator = navigator,
                                 title = "Racing",
+                                onAllClicked = {
+                                    navigator.navigate((CategoryScreenDestination(sampleGame.genre)))
+                                },
+                                onGameClicked = {
+                                    navigator.navigate(GameScreenDestination(id = it))
+                                },
                             )
                         }
-                        state.errorMessage?.let {
-                            item {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Text(text = it)
-                                }
-                            }
+                        item {
+                            MoreCategories(
+                                categories = viewModel.categories,
+                                onCategoryClicked = {
+                                    navigator.navigate(CategoryScreenDestination(it))
+                                },
+                            )
                         }
                     },
                 )
+            }
+            state.errorMessage?.let {
+                Text(text = it)
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun HomeTopBar(
-    onClick: () -> Unit,
+fun MoreCategories(
+    categories: List<String>,
+    onCategoryClicked: (String) -> Unit,
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+    ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                modifier = Modifier,
-                text = "GAMEIFY",
+                text = "More Categories",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp,
                     fontFamily = poppins,
-                    fontSize = 27.sp,
                 ),
             )
         }
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .clickable {
-                    onClick.invoke()
-                },
-            value = "",
-            onValueChange = {
-                onClick.invoke()
-            },
-            enabled = false,
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null,
-                )
-            },
-            placeholder = {
-                Text(
-                    text = "Search",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontFamily = poppins,
-                    ),
-                )
-            },
-            shape = RoundedCornerShape(100),
-        )
-    }
-}
-
-@Composable
-fun GamesRow(
-    games: List<Games>,
-    title: String,
-    navigator: DestinationsNavigator,
-) {
-    if (games.isNotEmpty()) {
-        val sampleGame = games[0]
-        CategoryGames(
-            games = games,
-            title = title,
-            onAllClicked = {
-                navigator.navigate((CategoryScreenDestination(sampleGame.genre)))
-            },
-            onGameClicked = {
-                navigator.navigate(GameScreenDestination(id = it))
-            },
-        )
-    } else {
-        (Box(modifier = Modifier))
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            maxItemsInEachRow = 3,
+        ) {
+            categories.forEach {
+                Button(
+                    modifier = Modifier.widthIn(min = 105.dp),
+                    onClick = {
+                        onCategoryClicked.invoke(it)
+                    },
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Text(
+                        text = it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = poppins,
+                            fontSize = 12.sp,
+                        ),
+                    )
+                }
+            }
+        }
     }
 }

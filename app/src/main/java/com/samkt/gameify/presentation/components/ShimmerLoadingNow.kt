@@ -39,23 +39,24 @@ fun ShimmerLoadingNow() {
                 modifier = Modifier
                     .height(160.dp)
                     .width(120.dp)
+                    .padding(horizontal = 4.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect(),
             ) {}
-            Spacer(modifier = Modifier.width(10.dp))
             Column(
                 modifier = Modifier
                     .height(160.dp)
                     .width(120.dp)
+                    .padding(horizontal = 4.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect(),
 
             ) {}
-            Spacer(modifier = Modifier.width(10.dp))
             Column(
                 modifier = Modifier
                     .height(160.dp)
                     .width(120.dp)
+                    .padding(horizontal = 4.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .shimmerEffect(),
             ) {}

@@ -31,6 +31,7 @@ import com.samkt.gameify.presentation.components.GameCategoryItem
 import com.samkt.gameify.presentation.destinations.GameScreenDestination
 import com.samkt.gameify.presentation.navigation.NavigationTransition
 import com.samkt.gameify.ui.theme.poppins
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = NavigationTransition::class)
@@ -74,7 +75,15 @@ fun CategoryScreen(
                             }
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
-                                text = category,
+                                text = category.replaceFirstChar {
+                                    if (it.isLowerCase()) {
+                                        it.titlecase(
+                                            Locale.ROOT,
+                                        )
+                                    } else {
+                                        it.toString()
+                                    }
+                                },
                                 style = MaterialTheme.typography.titleLarge.copy(
                                     fontFamily = poppins,
                                     fontSize = 24.sp,

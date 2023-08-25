@@ -1,19 +1,13 @@
 package com.samkt.gameify.presentation.homeScreen.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samkt.gameify.R
-import com.samkt.gameify.presentation.homeScreen.HomeScreenState
 import com.samkt.gameify.ui.theme.GameifyTheme
 import com.samkt.gameify.ui.theme.poppins
 
@@ -43,59 +36,38 @@ fun GameItem(
     onGameClicked: () -> Unit,
 ) {
     val context = LocalContext.current
-    val isLoading = HomeScreenState().isLoading
     Column(
-        modifier = modifier.width(130.dp),
+        modifier = modifier.width(130.dp).padding(horizontal = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (isLoading) {
-            Text(text = "Loading")
-        } else {
-            Box(
-                modifier = Modifier
-                    .height(160.dp)
-                    .width(120.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(
-                        MaterialTheme.colorScheme.background.copy(
-                            alpha = 0.1f,
-                        ),
-                    ),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator(strokeWidth = 2.dp)
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(imageUrl)
-                        .crossfade(500)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable {
-                            onGameClicked.invoke()
-                        },
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(id = R.drawable.placeholder),
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = poppins,
-                        fontSize = 12.sp,
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-        }
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(imageUrl)
+                .crossfade(500)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable {
+                    onGameClicked.invoke()
+                }
+                .height(160.dp)
+                .width(120.dp)
+                .clip(RoundedCornerShape(10.dp)),
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(id = R.drawable.placeholder),
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontFamily = poppins,
+                fontSize = 12.sp,
+            ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
