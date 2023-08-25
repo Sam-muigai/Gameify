@@ -1,8 +1,9 @@
-package com.samkt.gameify.presentation.category_screen
+package com.samkt.gameify.presentation.categoryScreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,12 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val repository: GamesRepository,
-    savedStateHandle: SavedStateHandle
-):ViewModel(){
+    savedStateHandle: SavedStateHandle,
+) : ViewModel() {
 
-    private var _uiState = MutableStateFlow(CategoryStates())
-    val uiState = _uiState.asStateFlow()
-
+    private var _categoryScreenUiState = MutableStateFlow(CategoryStates())
+    val categoryScreenUiState = _categoryScreenUiState.asStateFlow()
 
     init {
         val category = savedStateHandle.get<String>("category") ?: ""
@@ -33,29 +33,30 @@ class CategoryViewModel @Inject constructor(
     private fun getGames(category: String) {
         viewModelScope.launch {
             repository.getAllGames().onEach { result ->
-                when(result){
-                    is Resources.Success ->{
-                        delay(2000)
+                when (result) {
+                    is Resources.Success -> {
                         val filterGames = result.data?.filter { it.genre.lowercase() == category.lowercase() } ?: emptyList()
-                        _uiState.update {
+                        _categoryScreenUiState.update {
                             it.copy(
                                 isLoading = false,
-                                games = filterGames
+                                games = filterGames,
                             )
                         }
                     }
-                    is Resources.Loading ->{
-                        _uiState.update {
+
+                    is Resources.Loading -> {
+                        _categoryScreenUiState.update {
                             it.copy(
-                                isLoading = true
+                                isLoading = true,
                             )
                         }
                     }
-                    is Resources.Error ->{
-                        _uiState.update {
+
+                    is Resources.Error -> {
+                        _categoryScreenUiState.update {
                             it.copy(
                                 isLoading = false,
-                                errorMessage = result.message
+                                errorMessage = result.message,
                             )
                         }
                     }
@@ -63,6 +64,10 @@ class CategoryViewModel @Inject constructor(
             }.launchIn(this)
         }
     }
-
-
 }
+
+data class CategoryStates(
+    val isLoading: Boolean = false,
+    val games: List<Games> = emptyList(),
+    val errorMessage: String? = null,
+)

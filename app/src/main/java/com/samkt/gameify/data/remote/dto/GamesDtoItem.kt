@@ -13,5 +13,5 @@ data class GamesDtoItem(
     @field:Json(name = "release_date") val releaseDate: String,
     @field:Json(name = "short_description") val shortDescription: String,
     val thumbnail: String,
-    val title: String
+    val title: String,
 )

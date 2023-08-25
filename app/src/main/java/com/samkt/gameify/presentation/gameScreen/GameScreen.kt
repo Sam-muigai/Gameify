@@ -1,4 +1,4 @@
-package com.samkt.gameify.presentation.game_screen
+package com.samkt.gameify.presentation.gameScreen
 
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
@@ -30,20 +29,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.samkt.gameify.R
-import com.samkt.gameify.presentation.game_screen.components.GameImage
+import com.samkt.gameify.presentation.gameScreen.components.GameImage
 import com.samkt.gameify.presentation.navigation.NavigationTransition
 import com.samkt.gameify.ui.theme.poppins
 import com.samkt.gameify.util.shareMessage
@@ -53,18 +50,18 @@ import com.samkt.gameify.util.shareMessage
 @Composable
 fun GameScreen(
     id: Int,
-    viewModel: GameViewModel = hiltViewModel()
+    viewModel: GameViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val state = viewModel.uiState.collectAsStateWithLifecycle().value
     Scaffold(
         modifier = Modifier,
-        contentWindowInsets = WindowInsets(0.dp,0.dp,0.dp,0.dp)
+        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
     ) { paddingValues ->
         state.errorMessage?.let {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Text(text = it)
             }
@@ -73,28 +70,29 @@ fun GameScreen(
         AnimatedVisibility(
             visible = state.isLoading,
             enter = fadeIn(),
-            exit = fadeOut()
+            exit = fadeOut(),
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
         }
         AnimatedVisibility(
             visible = !state.isLoading,
-            enter = fadeIn(), exit = fadeOut()
+            enter = fadeIn(),
+            exit = fadeOut(),
         ) {
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
                 val screenshots = state.data?.screenshots ?: emptyList()
                 GameImage(
                     screenShots = screenshots,
-                    context = context
+                    context = context,
                 )
                 Column(
                     modifier = Modifier
@@ -107,63 +105,63 @@ fun GameScreen(
                             text = it.title,
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontFamily = poppins,
-                                fontWeight = FontWeight.Bold
-                            )
+                                fontWeight = FontWeight.Bold,
+                            ),
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_calendar),
-                                contentDescription = "release_date"
+                                contentDescription = "release_date",
                             )
                             Text(
                                 text = it.releaseDate,
                                 style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontFamily = poppins
-                                )
+                                    fontFamily = poppins,
+                                ),
                             )
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             Button(
                                 onClick = {
                                     startActivity(
                                         context,
                                         Intent(ACTION_VIEW, Uri.parse(it.gameUrl)),
-                                        null
+                                        null,
                                     )
-                                }
+                                },
                             ) {
                                 Text(
                                     text = "GET GAME",
                                     style = MaterialTheme.typography.titleMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                             }
                             Button(
                                 onClick = {
                                     // TODO: Implement explicit intent
                                     val message = "Check out this game 👉 ${it.gameUrl}"
-                                    shareMessage(context,message)
-                                }
+                                    shareMessage(context, message)
+                                },
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Share,
-                                    contentDescription = "Share"
+                                    contentDescription = "Share",
                                 )
                                 Text(
                                     text = "SHARE",
                                     style = MaterialTheme.typography.titleMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                             }
                         }
@@ -171,82 +169,82 @@ fun GameScreen(
                         Text(
                             text = it.description,
                             style = MaterialTheme.typography.bodySmall.copy(
-                                fontFamily = poppins
-                            )
+                                fontFamily = poppins,
+                            ),
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = "Details",
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 fontFamily = poppins,
-                                fontWeight = FontWeight.ExtraBold
-                            )
+                                fontWeight = FontWeight.ExtraBold,
+                            ),
                         )
                         Text(
                             text = "Genre : ${it.genre}",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                fontFamily = poppins
-                            )
+                                fontFamily = poppins,
+                            ),
                         )
                         Text(
                             text = "Platform : ${it.platform}",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                fontFamily = poppins
-                            )
+                                fontFamily = poppins,
+                            ),
                         )
                         Text(
                             text = "Publisher : ${it.publisher}",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                fontFamily = poppins
-                            )
+                                fontFamily = poppins,
+                            ),
                         )
                         Text(
                             text = "Developer : ${it.developer}",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                fontFamily = poppins
-                            )
+                                fontFamily = poppins,
+                            ),
                         )
                         Spacer(modifier = Modifier.height(8.dp))
 
                         requirements?.let { requirement ->
-                            //Some response have an empty minimumSystemRequirement block
+                            // Some response have an empty minimumSystemRequirement block
                             requirement.os?.let {
                                 Text(
                                     text = "Minimum System Requirement",
                                     style = MaterialTheme.typography.bodyLarge.copy(
                                         fontFamily = poppins,
-                                        fontWeight = FontWeight.ExtraBold
-                                    )
+                                        fontWeight = FontWeight.ExtraBold,
+                                    ),
                                 )
                                 Text(
                                     text = "Operating System : ${requirements.os}",
                                     style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                                 Text(
                                     text = "Processor : ${requirements.processor}",
                                     style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                                 Text(
                                     text = "Operating System : ${requirements.os}",
                                     style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                                 Text(
                                     text = "Graphics : ${requirements.graphics}",
                                     style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                                 Text(
                                     text = "Minimum storage: ${requirements.storage}",
                                     style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = poppins
-                                    )
+                                        fontFamily = poppins,
+                                    ),
                                 )
                             }
                         }

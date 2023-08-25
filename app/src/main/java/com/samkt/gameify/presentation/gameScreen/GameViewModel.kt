@@ -1,4 +1,4 @@
-package com.samkt.gameify.presentation.game_screen
+package com.samkt.gameify.presentation.gameScreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -18,11 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val repository: GamesRepository,
-    savedStateHandle: SavedStateHandle
-):ViewModel(){
+    savedStateHandle: SavedStateHandle,
+) : ViewModel() {
 
     private var _uiState = MutableStateFlow(GameScreenState())
-    val uiState =  _uiState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     init {
         val id = savedStateHandle.get<Int>("id") ?: 0
@@ -31,29 +31,30 @@ class GameViewModel @Inject constructor(
 
     private fun getGame(id: Int) {
         viewModelScope.launch {
-            repository.getGameById(id).onEach {result ->
-                when(result){
-                    is Resources.Loading ->{
+            repository.getGameById(id).onEach { result ->
+                when (result) {
+                    is Resources.Loading -> {
                         _uiState.update {
                             it.copy(
-                                isLoading = true
+                                isLoading = true,
                             )
                         }
                     }
-                    is Resources.Success ->{
-                        delay(2000)
-                        _uiState.update {
-                            it.copy(
-                               isLoading = false,
-                               data = result.data
-                            )
-                        }
-                    }
-                    is Resources.Error ->{
+
+                    is Resources.Success -> {
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                errorMessage = result.message
+                                data = result.data,
+                            )
+                        }
+                    }
+
+                    is Resources.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = result.message,
                             )
                         }
                     }

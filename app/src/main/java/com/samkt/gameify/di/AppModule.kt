@@ -1,7 +1,7 @@
 package com.samkt.gameify.di
 
-import com.samkt.gameify.data.remote.GameifyApi
-import com.samkt.gameify.data.remote.GameifyApi.Companion.BASE_URL
+import com.samkt.gameify.data.remote.FreeToGameApi
+import com.samkt.gameify.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,14 +16,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGameifyApi(): GameifyApi {
+    fun provideGameifyApi(): FreeToGameApi {
         return Retrofit
             .Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-            .create(GameifyApi::class.java)
+            .create(FreeToGameApi::class.java)
     }
-
-
 }

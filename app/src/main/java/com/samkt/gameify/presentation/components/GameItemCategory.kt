@@ -36,8 +36,8 @@ fun GameCategoryItem(
     imageUrl: String,
     title: String,
     genre: String,
-    releaseDate:String,
-    onClick:()->Unit
+    releaseDate: String,
+    onClick: () -> Unit,
 ) {
     val context = LocalContext.current
     Surface(
@@ -49,7 +49,7 @@ fun GameCategoryItem(
                 onClick.invoke()
             },
         shape = RoundedCornerShape(8.dp),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.background,
     ) {
         Row(modifier = Modifier) {
             AsyncImage(
@@ -60,7 +60,7 @@ fun GameCategoryItem(
                 model = ImageRequest.Builder(context).crossfade(200).data(imageUrl).build(),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
-                placeholder = painterResource(id = R.drawable.placeholder)
+                placeholder = painterResource(id = R.drawable.placeholder),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -69,27 +69,27 @@ fun GameCategoryItem(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.ExtraBold,
-                        fontFamily = poppins
-                    )
+                        fontFamily = poppins,
+                    ),
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_category),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                     Text(text = genre)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                     Text(text = releaseDate)
                 }

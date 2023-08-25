@@ -1,4 +1,4 @@
-package com.samkt.gameify.presentation.home_screen.components
+package com.samkt.gameify.presentation.homeScreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,19 +21,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samkt.gameify.R
-import com.samkt.gameify.presentation.home_screen.HomeScreenState
+import com.samkt.gameify.presentation.homeScreen.HomeScreenState
 import com.samkt.gameify.ui.theme.GameifyTheme
 import com.samkt.gameify.ui.theme.poppins
 
@@ -48,7 +46,7 @@ fun GameItem(
     val isLoading = HomeScreenState().isLoading
     Column(
         modifier = modifier.width(130.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         if (isLoading) {
             Text(text = "Loading")
@@ -60,10 +58,10 @@ fun GameItem(
                     .clip(RoundedCornerShape(10.dp))
                     .background(
                         MaterialTheme.colorScheme.background.copy(
-                            alpha = 0.1f
-                        )
+                            alpha = 0.1f,
+                        ),
                     ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
                 AsyncImage(
@@ -78,20 +76,20 @@ fun GameItem(
                             onGameClicked.invoke()
                         },
                     contentScale = ContentScale.Crop,
-                    placeholder = painterResource(id = R.drawable.placeholder)
+                    placeholder = painterResource(id = R.drawable.placeholder),
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.Bold,
                         fontFamily = poppins,
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
                     ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -101,7 +99,6 @@ fun GameItem(
     }
 }
 
-
 @Composable
 fun GameItemPreview() {
     GameifyTheme {
@@ -109,9 +106,8 @@ fun GameItemPreview() {
             GameItem(
                 modifier = Modifier.padding(16.dp),
                 title = "OverWatch 2",
-                imageUrl = "https://www.freetogame.com/g/540/thumbnail.jpg"
+                imageUrl = "https://www.freetogame.com/g/540/thumbnail.jpg",
             ) {
-
             }
         }
     }

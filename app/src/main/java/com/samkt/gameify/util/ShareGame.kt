@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 
 @SuppressLint("QueryPermissionsNeeded")
-fun shareMessage(context:Context, message:String){
+fun shareMessage(context: Context, message: String) {
     val shareIntent = Intent().apply {
         action = Intent.ACTION_SEND
         type = "text/plain"

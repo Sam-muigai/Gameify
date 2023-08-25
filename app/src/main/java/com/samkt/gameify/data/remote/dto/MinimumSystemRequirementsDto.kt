@@ -5,5 +5,5 @@ data class MinimumSystemRequirementsDto(
     val memory: String?,
     val os: String?,
     val processor: String?,
-    val storage: String?
+    val storage: String?,
 )

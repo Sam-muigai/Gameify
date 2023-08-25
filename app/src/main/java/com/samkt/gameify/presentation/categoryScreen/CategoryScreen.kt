@@ -1,13 +1,11 @@
-package com.samkt.gameify.presentation.category_screen
+package com.samkt.gameify.presentation.categoryScreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,13 +40,13 @@ import com.samkt.gameify.ui.theme.poppins
 fun CategoryScreen(
     category: String,
     navigator: DestinationsNavigator,
-    viewModel: CategoryViewModel = hiltViewModel()
+    viewModel: CategoryViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.uiState.collectAsState().value
+    val state = viewModel.categoryScreenUiState.collectAsState().value
     Scaffold { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -61,13 +59,13 @@ fun CategoryScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
+                                .padding(horizontal = 8.dp),
                         ) {
                             IconButton(onClick = { navigator.popBackStack() }) {
                                 Icon(
                                     modifier = Modifier.align(Alignment.CenterStart),
                                     imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "Navigate back"
+                                    contentDescription = "Navigate back",
                                 )
                             }
                             Text(
@@ -75,8 +73,8 @@ fun CategoryScreen(
                                 text = category,
                                 style = MaterialTheme.typography.titleLarge.copy(
                                     fontFamily = poppins,
-                                    fontSize = 24.sp
-                                )
+                                    fontSize = 24.sp,
+                                ),
                             )
                         }
                     }
@@ -88,15 +86,15 @@ fun CategoryScreen(
                             releaseDate = it.releaseDate,
                             onClick = {
                                 navigator.navigate(GameScreenDestination(it.id))
-                            }
+                            },
                         )
                     }
-                }
+                },
             )
             AnimatedVisibility(
                 visible = state.isLoading,
                 enter = fadeIn(),
-                exit = fadeOut()
+                exit = fadeOut(),
             ) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
@@ -104,10 +102,12 @@ fun CategoryScreen(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontFamily = poppins
-                    )
+                        fontFamily = poppins,
+                    ),
                 )
             }
         }
     }
 }
+
+

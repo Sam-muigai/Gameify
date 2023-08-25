@@ -21,7 +21,7 @@ fun GamesDtoItem.toGames(): Games {
         releaseDate,
         shortDescription,
         thumbnail,
-        title
+        title,
     )
 }
 
@@ -29,12 +29,13 @@ fun ScreenshotDto.toScreenShots(): ScreenShot {
     return ScreenShot(id, image)
 }
 
-fun MinimumSystemRequirementsDto.toMinimumRequirements():MinimumSystemRequirements{
+fun MinimumSystemRequirementsDto.toMinimumRequirements(): MinimumSystemRequirements {
     return MinimumSystemRequirements(graphics, memory, os, processor, storage)
 }
 
 fun GameDto.toGame(): Game {
-    return Game(description = description,
+    return Game(
+        description = description,
         developer = developer,
         freetogameProfileUrl = freetogameProfileUrl,
         gameUrl = gameUrl,
@@ -48,6 +49,6 @@ fun GameDto.toGame(): Game {
         shortDescription = shortDescription,
         status = status,
         thumbnail = thumbnail,
-        title = title
+        title = title,
     )
 }

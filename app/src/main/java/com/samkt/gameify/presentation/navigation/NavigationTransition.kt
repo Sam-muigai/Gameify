@@ -6,10 +6,9 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavBackStackEntry
 import com.ramcosta.composedestinations.spec.DestinationStyle
-import com.samkt.gameify.presentation.appDestination
 
 @OptIn(ExperimentalAnimationApi::class)
-object NavigationTransition:DestinationStyle.Animated{
+object NavigationTransition : DestinationStyle.Animated {
     override fun AnimatedContentScope<NavBackStackEntry>.enterTransition(): EnterTransition {
         return scaleInEnterTransition()
     }
@@ -18,7 +17,6 @@ object NavigationTransition:DestinationStyle.Animated{
         return scaleOutExitTransition()
     }
 
-
     override fun AnimatedContentScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
         return scaleInPopEnterTransition()
     }
@@ -26,5 +24,4 @@ object NavigationTransition:DestinationStyle.Animated{
     override fun AnimatedContentScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
         return scaleOutExitTransition()
     }
-
 }

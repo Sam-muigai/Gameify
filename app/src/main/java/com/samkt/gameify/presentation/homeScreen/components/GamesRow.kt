@@ -1,4 +1,4 @@
-package com.samkt.gameify.presentation.home_screen.components
+package com.samkt.gameify.presentation.homeScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ fun GamesRow(
     onGameClicked: (Int) -> Unit,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
@@ -28,12 +28,12 @@ fun GamesRow(
                 items(games) {
                     GameItem(
                         title = it.title,
-                        imageUrl = it.thumbnail
+                        imageUrl = it.thumbnail,
                     ) {
                         onGameClicked(it.id)
                     }
                 }
-            }
+            },
         )
     }
 }

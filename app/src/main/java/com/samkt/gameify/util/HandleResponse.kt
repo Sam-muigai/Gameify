@@ -1,22 +1,28 @@
 package com.samkt.gameify.util
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 
+suspend fun <T> safeApiCall(
+    dispatcher: CoroutineDispatcher,
+    apiCall: suspend () -> T,
+): Resources<T> {
+    return withContext(dispatcher) {
+        try {
+            Resources.Success(apiCall.invoke())
+        } catch (throwable: Throwable) {
+            when (throwable) {
+                is IOException -> Resources.Error(null, "No internet connection")
+                is HttpException -> {
+                    val errorCode = throwable.code()
 
-fun <T : Any> handleResponse(
-    response: suspend () -> T
-): Flow<Resources<T>> = flow {
-    try {
-        emit(Resources.Loading)
-        val result = response.invoke()
-        emit(Resources.Success(result))
-    } catch (e: Exception) {
-        emit(
-            Resources.Error(
-                data = null,
-                message = e.localizedMessage ?: "Unknown error"
-            )
-        )
+                    Resources.Error(message = "Server error occurred")
+                }
+
+                else -> Resources.Error(null, throwable.message)
+            }
+        }
     }
 }

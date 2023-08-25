@@ -1,7 +1,5 @@
 package com.samkt.gameify.domain.model
 
-import com.squareup.moshi.Json
-
 data class Games(
     val developer: String,
     val freeToGameProfileUrl: String,
@@ -13,5 +11,5 @@ data class Games(
     val releaseDate: String,
     val shortDescription: String,
     val thumbnail: String,
-    val title: String
+    val title: String,
 )
