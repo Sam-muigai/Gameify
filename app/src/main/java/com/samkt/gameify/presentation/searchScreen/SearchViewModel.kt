@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 const val RESULT = "result"
@@ -74,7 +75,7 @@ class SearchViewModel @Inject constructor(
                     is Resources.Success -> {
                         val games = result.data
                         cachedGames = games
-                        Log.d(RESULT, games.toString())
+                        Timber.d(games.toString())
                         _searchScreenState.update {
                             it.copy(
                                 isLoading = false,
@@ -90,7 +91,7 @@ class SearchViewModel @Inject constructor(
                                 errorMessage = result.message,
                             )
                         }
-                        Log.d(RESULT, result.message.toString())
+                        Timber.d(result.message.toString())
                     }
                 }
             }.launchIn(this)

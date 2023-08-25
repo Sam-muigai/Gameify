@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 const val RESULT = "result"
@@ -39,15 +40,11 @@ class HomeViewModel @Inject constructor(
             repository.getAllGames().onEach { result ->
                 when (result) {
                     is Resources.Success -> {
-                        val games = result.data
-                        val shootingGames =
-                            games?.filter { it.genre.lowercase() == "shooter" } ?: emptyList()
-                        val racingGames =
-                            games?.filter { it.genre.lowercase() == "racing" } ?: emptyList()
-                        val sportsGames =
-                            games?.filter { it.genre.lowercase() == "sports" } ?: emptyList()
-                        val fightingGames =
-                            games?.filter { it.genre.lowercase() == "fighting" } ?: emptyList()
+                        val games = result.data ?: emptyList()
+                        val shootingGames = games.filter { it.genre.lowercase() == "shooter" }
+                        val racingGames = games.filter { it.genre.lowercase() == "racing" }
+                        val sportsGames = games.filter { it.genre.lowercase() == "sports" }
+                        val fightingGames = games.filter { it.genre.lowercase() == "fighting" }
                         _homeScreenState.update {
                             it.copy(
                                 isLoading = false,
@@ -57,7 +54,7 @@ class HomeViewModel @Inject constructor(
                                 fightingGames = fightingGames,
                             )
                         }
-                        Log.d(RESULT, (result.data ?: emptyList()).toString())
+                        Timber.d(games.toString())
                     }
 
                     is Resources.Error -> {
@@ -68,7 +65,7 @@ class HomeViewModel @Inject constructor(
                                 errorMessage = errorMessage,
                             )
                         }
-                        Log.d(RESULT, errorMessage)
+                        Timber.d(errorMessage)
                     }
                 }
             }.launchIn(this)
