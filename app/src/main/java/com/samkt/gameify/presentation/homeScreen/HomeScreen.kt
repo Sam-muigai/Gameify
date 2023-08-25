@@ -19,7 +19,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -47,12 +46,6 @@ fun HomeScreen(
 ) {
     val state = viewModel.homeScreenState.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(
-        key1 = true,
-        block = {
-            viewModel.getAllGames()
-        },
-    )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) { paddingValues ->
@@ -70,7 +63,7 @@ fun HomeScreen(
                             .fillMaxSize(),
                         content = {
                             item {
-                                TopBar(navigator = navigator)
+                                HomeTopBar(onClick = {})
                             }
                             items(5) {
                                 ShimmerLoadingNow()
@@ -82,7 +75,11 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxSize(),
                     content = {
                         item {
-                            TopBar(navigator = navigator)
+                            HomeTopBar(
+                                onClick = {
+                                    navigator.navigate(SearchScreenDestination)
+                                },
+                            )
                         }
                         item {
                             GamesRow(
@@ -132,8 +129,8 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
-    navigator: DestinationsNavigator,
+fun HomeTopBar(
+    onClick: () -> Unit,
 ) {
     Column {
         Row(
@@ -156,11 +153,11 @@ fun TopBar(
                 .fillMaxWidth()
                 .padding(8.dp)
                 .clickable {
-                    navigator.navigate(SearchScreenDestination())
+                    onClick.invoke()
                 },
             value = "",
             onValueChange = {
-                navigator.navigate(SearchScreenDestination())
+                onClick.invoke()
             },
             enabled = false,
             leadingIcon = {

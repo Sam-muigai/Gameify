@@ -1,7 +1,7 @@
 package com.samkt.gameify.data.remote.mappers
 
 import com.samkt.gameify.data.remote.dto.GameDto
-import com.samkt.gameify.data.remote.dto.GamesDtoItem
+import com.samkt.gameify.data.remote.dto.GamesResponseDto
 import com.samkt.gameify.data.remote.dto.MinimumSystemRequirementsDto
 import com.samkt.gameify.data.remote.dto.ScreenshotDto
 import com.samkt.gameify.domain.model.Game
@@ -9,7 +9,7 @@ import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.domain.model.MinimumSystemRequirements
 import com.samkt.gameify.domain.model.ScreenShot
 
-fun GamesDtoItem.toGames(): Games {
+fun GamesResponseDto.toGames(): Games {
     return Games(
         developer,
         freeToGameProfileUrl,

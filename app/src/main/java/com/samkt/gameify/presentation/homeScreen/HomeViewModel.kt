@@ -25,7 +25,11 @@ class HomeViewModel @Inject constructor(
     private var _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = _homeScreenState.asStateFlow()
 
-    fun getAllGames() {
+    init {
+        getAllGames()
+    }
+
+    private fun getAllGames() {
         viewModelScope.launch {
             _homeScreenState.update {
                 it.copy(

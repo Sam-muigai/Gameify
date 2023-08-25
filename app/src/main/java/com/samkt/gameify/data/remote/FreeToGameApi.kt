@@ -1,14 +1,14 @@
 package com.samkt.gameify.data.remote
 
 import com.samkt.gameify.data.remote.dto.GameDto
-import com.samkt.gameify.data.remote.dto.GamesDtoItem
+import com.samkt.gameify.data.remote.dto.GamesResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface FreeToGameApi {
 
     @GET("games")
-    suspend fun getAllGames(): List<GamesDtoItem>
+    suspend fun getAllGames(): List<GamesResponseDto>
 
     @GET("game")
     suspend fun getGameById(

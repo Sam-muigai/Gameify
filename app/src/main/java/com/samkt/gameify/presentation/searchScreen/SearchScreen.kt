@@ -1,6 +1,5 @@
 package com.samkt.gameify.presentation.searchScreen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -44,14 +42,9 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val state = viewModel.searchScreenState.collectAsStateWithLifecycle().value
-    LaunchedEffect(
-        key1 = true,
-        block = {
-            viewModel.getAllGames()
-        },
-    )
+
     Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-        AnimatedVisibility(visible = state.isLoading) {
+        if (state.isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -97,7 +90,7 @@ fun SearchScreen(
                             imageUrl = it.thumbnail,
                             title = it.title,
                             genre = it.genre,
-                            releaseDate = it.releaseDate,
+                            releaseDate = it.releaseDate.toString(),
                             onClick = {
                                 navigator.navigate(GameScreenDestination(it.id))
                             },

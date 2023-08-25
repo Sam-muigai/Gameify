@@ -30,6 +30,10 @@ class SearchViewModel @Inject constructor(
     private var cachedGames: List<Games>? = null
     private var job: Job? = null
 
+    init {
+        getAllGames()
+    }
+
     fun onEvent(event: SearchScreenEvents) {
         when (event) {
             is SearchScreenEvents.OnValueChange -> {
@@ -58,7 +62,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getAllGames() {
+    private fun getAllGames() {
         viewModelScope.launch {
             _searchScreenState.update {
                 it.copy(
@@ -93,6 +97,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 }
+
 data class SearchScreenStates(
     val searchTerm: String = "",
     val games: List<Games> = emptyList(),
