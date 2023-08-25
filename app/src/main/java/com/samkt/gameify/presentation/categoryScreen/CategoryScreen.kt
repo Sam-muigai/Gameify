@@ -1,8 +1,5 @@
 package com.samkt.gameify.presentation.categoryScreen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -98,7 +95,7 @@ fun CategoryScreen(
                     }
                 },
             )
-            if(state.isLoading) {
+            if (state.isLoading) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
             state.errorMessage?.let {

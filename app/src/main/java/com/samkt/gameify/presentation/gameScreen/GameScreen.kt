@@ -3,9 +3,6 @@ package com.samkt.gameify.presentation.gameScreen
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,13 +14,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -40,6 +41,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.samkt.gameify.R
 import com.samkt.gameify.presentation.gameScreen.components.GameImage
 import com.samkt.gameify.presentation.navigation.NavigationTransition
@@ -52,6 +54,7 @@ import com.samkt.gameify.util.shareMessage
 fun GameScreen(
     id: Int,
     viewModel: GameViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
 ) {
     val context = LocalContext.current
     val state = viewModel.gameScreenState.collectAsStateWithLifecycle().value
@@ -76,33 +79,36 @@ fun GameScreen(
             }
         }
 
-        AnimatedVisibility(
-            visible = state.isLoading,
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
+        if (state.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
-        }
-        AnimatedVisibility(
-            visible = !state.isLoading,
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
+        } else {
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
                     .verticalScroll(rememberScrollState()),
             ) {
                 val screenshots = state.data?.screenshots ?: emptyList()
-                GameImage(
-                    screenShots = screenshots,
-                    context = context,
-                )
+                Box {
+                    GameImage(
+                        screenShots = screenshots,
+                        context = context,
+                    )
+                    FloatingActionButton(
+                        modifier = Modifier.align(Alignment.TopStart).size(90.dp).padding(25.dp),
+                        onClick = { navigator.popBackStack() },
+                        shape = CircleShape,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "navigate back",
+                        )
+                    }
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
