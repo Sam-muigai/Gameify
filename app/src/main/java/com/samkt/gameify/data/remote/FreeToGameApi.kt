@@ -14,4 +14,9 @@ interface FreeToGameApi {
     suspend fun getGameById(
         @Query("id") id: Int,
     ): GameDto
+
+    @GET("games")
+    suspend fun getGamesByCategory(
+        @Query("category") category: String,
+    ): List<GamesResponseDto>
 }

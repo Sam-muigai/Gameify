@@ -10,4 +10,5 @@ interface GamesRepository {
     suspend fun getGameById(id: Int): Flow<Resources<Game>>
 
     suspend fun getAllGames(): Flow<Resources<List<Games>>>
+    suspend fun getGameByCategory(category: String): Flow<Resources<List<Games>>>
 }

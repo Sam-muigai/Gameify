@@ -98,11 +98,7 @@ fun CategoryScreen(
                     }
                 },
             )
-            AnimatedVisibility(
-                visible = state.isLoading,
-                enter = fadeIn(),
-                exit = fadeOut(),
-            ) {
+            if(state.isLoading) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
             state.errorMessage?.let {

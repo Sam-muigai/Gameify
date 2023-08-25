@@ -24,4 +24,9 @@ class GamesRepositoryImpl @Inject constructor(
     override suspend fun getAllGames(): Flow<Resources<List<Games>>> {
         return flowOf(safeApiCall(Dispatchers.IO) { api.getAllGames().map { it.toGames() } })
     }
+
+    override suspend fun getGameByCategory(category: String): Flow<Resources<List<Games>>> {
+        return flowOf(safeApiCall(Dispatchers.IO){ api.getGamesByCategory(category).map { it.toGames() } })
+    }
+
 }

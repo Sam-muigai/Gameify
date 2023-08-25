@@ -29,14 +29,14 @@ class CategoryViewModel @Inject constructor(
                     isLoading = true,
                 )
             }
-            repository.getAllGames().onEach { result ->
+            repository.getGameByCategory(category).onEach { result ->
                 when (result) {
                     is Resources.Success -> {
-                        val filterGames = result.data?.filter { it.genre.lowercase() == category.lowercase() } ?: emptyList()
+                        val games = result.data ?: emptyList()
                         _categoryScreenUiState.update {
                             it.copy(
                                 isLoading = false,
-                                games = filterGames,
+                                games = games,
                             )
                         }
                     }
