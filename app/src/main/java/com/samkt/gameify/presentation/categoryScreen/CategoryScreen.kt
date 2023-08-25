@@ -90,7 +90,7 @@ fun CategoryScreen(
                             imageUrl = it.thumbnail,
                             title = it.title,
                             genre = it.genre,
-                            releaseDate = it.releaseDate.toString(),
+                            releaseDate = it.releaseDate,
                             onClick = {
                                 navigator.navigate(GameScreenDestination(it.id))
                             },
