@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,7 +54,15 @@ fun GameScreen(
     viewModel: GameViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val state = viewModel.uiState.collectAsStateWithLifecycle().value
+    val state = viewModel.gameScreenState.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(
+        key1 = true,
+        block = {
+            viewModel.getGame(id)
+        },
+    )
+
     Scaffold(
         modifier = Modifier,
         contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),

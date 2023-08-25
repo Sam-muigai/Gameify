@@ -3,10 +3,10 @@ package com.samkt.gameify.presentation.homeScreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -22,15 +22,16 @@ class HomeViewModel @Inject constructor(
     private val repository: GamesRepository,
 ) : ViewModel() {
 
-    private var _uiState = MutableStateFlow(HomeScreenState())
-    val uiState = _uiState.asStateFlow()
+    private var _homeScreenState = MutableStateFlow(HomeScreenState())
+    val homeScreenState = _homeScreenState.asStateFlow()
 
-    init {
-        getAllGames()
-    }
-
-    private fun getAllGames() {
+    fun getAllGames() {
         viewModelScope.launch {
+            _homeScreenState.update {
+                it.copy(
+                    isLoading = true,
+                )
+            }
             repository.getAllGames().onEach { result ->
                 when (result) {
                     is Resources.Success -> {
@@ -43,8 +44,7 @@ class HomeViewModel @Inject constructor(
                             games?.filter { it.genre.lowercase() == "sports" } ?: emptyList()
                         val fightingGames =
                             games?.filter { it.genre.lowercase() == "fighting" } ?: emptyList()
-                        delay(1000)
-                        _uiState.update {
+                        _homeScreenState.update {
                             it.copy(
                                 isLoading = false,
                                 shooterGames = shootingGames,
@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
 
                     is Resources.Error -> {
                         val errorMessage = result.message ?: "Error occurred"
-                        _uiState.update {
+                        _homeScreenState.update {
                             it.copy(
                                 isLoading = false,
                                 errorMessage = errorMessage,
@@ -66,17 +66,17 @@ class HomeViewModel @Inject constructor(
                         }
                         Log.d(RESULT, errorMessage)
                     }
-
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = true,
-                            )
-                        }
-                        Log.d(RESULT, "loading")
-                    }
                 }
             }.launchIn(this)
         }
     }
 }
+
+data class HomeScreenState(
+    val isLoading: Boolean = false,
+    val shooterGames: List<Games> = emptyList(),
+    val fightingGames: List<Games> = emptyList(),
+    val racingGames: List<Games> = emptyList(),
+    val sportsGames: List<Games> = emptyList(),
+    val errorMessage: String? = null,
+)

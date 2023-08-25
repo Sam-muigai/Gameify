@@ -24,22 +24,17 @@ class SearchViewModel @Inject constructor(
     private val repository: GamesRepository,
 ) : ViewModel() {
 
-    private var _uiState = MutableStateFlow(SearchScreenStates())
-    val uiState = _uiState.asStateFlow()
+    private var _searchScreenState = MutableStateFlow(SearchScreenStates())
+    val searchScreenState = _searchScreenState.asStateFlow()
 
     private var cachedGames: List<Games>? = null
-
-    init {
-        getAllGames()
-    }
-
     private var job: Job? = null
 
     fun onEvent(event: SearchScreenEvents) {
         when (event) {
             is SearchScreenEvents.OnValueChange -> {
                 val word = event.value.lowercase()
-                _uiState.update {
+                _searchScreenState.update {
                     it.copy(
                         searchTerm = word,
                     )
@@ -47,7 +42,7 @@ class SearchViewModel @Inject constructor(
                 job?.cancel()
                 job = viewModelScope.launch {
                     delay(500)
-                    _uiState.update {
+                    _searchScreenState.update {
                         val games = if (word.isNotEmpty()) {
                             cachedGames?.filter { game -> game.title.lowercase().contains(word) }
                                 ?: emptyList()
@@ -63,16 +58,20 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun getAllGames() {
+    fun getAllGames() {
         viewModelScope.launch {
+            _searchScreenState.update {
+                it.copy(
+                    isLoading = true,
+                )
+            }
             repository.getAllGames().onEach { result ->
                 when (result) {
                     is Resources.Success -> {
                         val games = result.data
                         cachedGames = games
                         Log.d(RESULT, games.toString())
-                        delay(1000)
-                        _uiState.update {
+                        _searchScreenState.update {
                             it.copy(
                                 isLoading = false,
                                 games = games ?: emptyList(),
@@ -81,7 +80,7 @@ class SearchViewModel @Inject constructor(
                     }
 
                     is Resources.Error -> {
-                        _uiState.update {
+                        _searchScreenState.update {
                             it.copy(
                                 isLoading = false,
                                 errorMessage = result.message,
@@ -89,17 +88,18 @@ class SearchViewModel @Inject constructor(
                         }
                         Log.d(RESULT, result.message.toString())
                     }
-
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = true,
-                            )
-                        }
-                        Log.d(RESULT, "Loading")
-                    }
                 }
             }.launchIn(this)
         }
     }
+}
+data class SearchScreenStates(
+    val searchTerm: String = "",
+    val games: List<Games> = emptyList(),
+    val errorMessage: String? = null,
+    val isLoading: Boolean = false,
+)
+
+sealed class SearchScreenEvents {
+    data class OnValueChange(val value: String) : SearchScreenEvents()
 }

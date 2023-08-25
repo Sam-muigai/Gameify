@@ -16,11 +16,8 @@ suspend fun <T> safeApiCall(
             when (throwable) {
                 is IOException -> Resources.Error(null, "No internet connection")
                 is HttpException -> {
-                    val errorCode = throwable.code()
-
                     Resources.Error(message = "Server error occurred")
                 }
-
                 else -> Resources.Error(null, throwable.message)
             }
         }

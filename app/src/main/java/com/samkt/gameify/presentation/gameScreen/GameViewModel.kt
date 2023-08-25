@@ -1,12 +1,11 @@
 package com.samkt.gameify.presentation.gameScreen
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.samkt.gameify.domain.model.Game
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -18,31 +17,22 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val repository: GamesRepository,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private var _uiState = MutableStateFlow(GameScreenState())
-    val uiState = _uiState.asStateFlow()
+    private var _gameScreenState = MutableStateFlow(GameScreenState())
+    val gameScreenState = _gameScreenState.asStateFlow()
 
-    init {
-        val id = savedStateHandle.get<Int>("id") ?: 0
-        getGame(id)
-    }
-
-    private fun getGame(id: Int) {
+    fun getGame(id: Int) {
         viewModelScope.launch {
+            _gameScreenState.update {
+                it.copy(
+                    isLoading = true,
+                )
+            }
             repository.getGameById(id).onEach { result ->
                 when (result) {
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = true,
-                            )
-                        }
-                    }
-
                     is Resources.Success -> {
-                        _uiState.update {
+                        _gameScreenState.update {
                             it.copy(
                                 isLoading = false,
                                 data = result.data,
@@ -51,7 +41,7 @@ class GameViewModel @Inject constructor(
                     }
 
                     is Resources.Error -> {
-                        _uiState.update {
+                        _gameScreenState.update {
                             it.copy(
                                 isLoading = false,
                                 errorMessage = result.message,
@@ -63,3 +53,9 @@ class GameViewModel @Inject constructor(
         }
     }
 }
+
+data class GameScreenState(
+    val isLoading: Boolean = false,
+    val data: Game? = null,
+    val errorMessage: String? = null,
+)

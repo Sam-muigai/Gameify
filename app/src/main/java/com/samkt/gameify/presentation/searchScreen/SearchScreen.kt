@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,13 @@ fun SearchScreen(
     navigator: DestinationsNavigator,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.uiState.collectAsStateWithLifecycle().value
+    val state = viewModel.searchScreenState.collectAsStateWithLifecycle().value
+    LaunchedEffect(
+        key1 = true,
+        block = {
+            viewModel.getAllGames()
+        },
+    )
     Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
         AnimatedVisibility(visible = state.isLoading) {
             Box(
