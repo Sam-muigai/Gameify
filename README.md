@@ -18,7 +18,7 @@ This is an android that fetches Games from [freeToGame](https://www.freetogame.c
 ## Model-View-ViewModel
 MVVM is a software architectural pattern that separates the presentation logic (View) from the business logic (Model) and introduces a middle layer (ViewModel) to mediate communication between them. This design pattern promotes better code organization, testability, and maintainability of Android applications.
 
-<img src="screenshots/MVVM.jpeg"/>
+<img src="screenshots/MVVM.png"/>
 
 ## Tech Stack
 - The app is entirely written in [Kotlin](https://kotlinlang.org/)
