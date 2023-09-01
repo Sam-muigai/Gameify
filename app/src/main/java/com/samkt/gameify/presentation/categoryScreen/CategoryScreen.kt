@@ -91,7 +91,12 @@ fun CategoryScreen(
                             )
                         }
                     }
-                    items(state.games) {
+                    items(
+                        items = state.games,
+                        key = {
+                            it.id
+                        },
+                    ) {
                         GameCategoryItem(
                             imageUrl = it.thumbnail,
                             title = it.title,

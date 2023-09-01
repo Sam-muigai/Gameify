@@ -18,11 +18,19 @@ class GamesRepositoryImpl @Inject constructor(
 ) : GamesRepository {
 
     override suspend fun getGameById(id: Int): Flow<Resources<Game>> {
-        return flowOf(safeApiCall(Dispatchers.IO) { api.getGameById(id).toGame() })
+        return flowOf(
+            safeApiCall(Dispatchers.IO) {
+                api.getGameById(id).toGame()
+            },
+        )
     }
 
     override suspend fun getAllGames(): Flow<Resources<List<Games>>> {
-        return flowOf(safeApiCall(Dispatchers.IO) { api.getAllGames().map { it.toGames() } })
+        return flowOf(
+            safeApiCall(Dispatchers.IO) {
+                api.getAllGames().map { it.toGames() }
+            },
+        )
     }
 
     override suspend fun getGameByCategory(category: String): Flow<Resources<List<Games>>> {

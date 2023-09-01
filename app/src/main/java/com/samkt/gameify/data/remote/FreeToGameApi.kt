@@ -20,3 +20,5 @@ interface FreeToGameApi {
         @Query("category") category: String,
     ): List<GamesResponseDto>
 }
+
+

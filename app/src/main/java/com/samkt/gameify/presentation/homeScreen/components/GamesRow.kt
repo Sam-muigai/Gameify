@@ -25,7 +25,12 @@ fun GamesRow(
             contentPadding = PaddingValues(horizontal = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             content = {
-                items(games) {
+                items(
+                    items = games,
+                    key = {
+                        it.id
+                    },
+                ) {
                     GameItem(
                         title = it.title,
                         imageUrl = it.thumbnail,

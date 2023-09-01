@@ -1,6 +1,5 @@
 package com.samkt.gameify.presentation.searchScreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.samkt.gameify.domain.model.Games
@@ -98,6 +97,13 @@ class SearchViewModel @Inject constructor(
         }
     }
 }
+
+// data class SearchScreenStates(
+//    val searchTerm: String = "",
+//    val games: List<Games> = emptyList(),
+//    val errorMessage: String? = null,
+//    val isLoading: Boolean = false,
+// )
 
 data class SearchScreenStates(
     val searchTerm: String = "",

@@ -14,11 +14,12 @@ suspend fun <T> safeApiCall(
             Resources.Success(apiCall.invoke())
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException -> Resources.Error(null, "No internet connection")
+                is IOException -> Resources.Error("No internet connection")
                 is HttpException -> {
                     Resources.Error(message = "Server error occurred")
                 }
-                else -> Resources.Error(null, throwable.message)
+
+                else -> Resources.Error(throwable.message)
             }
         }
     }

@@ -53,11 +53,11 @@ class HomeViewModel @Inject constructor(
                                 fightingGames = fightingGames,
                             )
                         }
-                        Timber.d(games.toString())
+                        Timber.d("Successfully retrieved games")
                     }
 
                     is Resources.Error -> {
-                        val errorMessage = result.message ?: "Error occurred"
+                        val errorMessage = result.message!!
                         _homeScreenState.update {
                             it.copy(
                                 isLoading = false,
