@@ -7,6 +7,7 @@ import com.samkt.gameify.domain.model.Games
 import com.samkt.gameify.domain.repository.GamesRepository
 import com.samkt.gameify.util.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -34,6 +35,7 @@ class CategoryViewModel @Inject constructor(
             repository.getGameByCategory(category).onEach { result ->
                 when (result) {
                     is Resources.Success -> {
+                        delay(500)
                         val games = result.data ?: emptyList()
                         _categoryScreenUiState.update {
                             it.copy(
