@@ -29,6 +29,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samkt.gameify.R
 import com.samkt.gameify.ui.theme.poppins
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun GameCategoryItem(
@@ -52,15 +54,15 @@ fun GameCategoryItem(
         color = MaterialTheme.colorScheme.background,
     ) {
         Row(modifier = Modifier) {
-            AsyncImage(
+            CoilImage(
                 modifier = Modifier
                     .width(120.dp)
                     .height(135.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                model = ImageRequest.Builder(context).crossfade(200).data(imageUrl).build(),
+                imageModel = imageUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
-                placeholder = painterResource(id = R.drawable.placeholder),
+                circularReveal = CircularReveal(duration = 1000),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.fillMaxWidth()) {

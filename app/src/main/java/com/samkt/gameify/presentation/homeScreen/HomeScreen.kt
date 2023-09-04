@@ -79,7 +79,7 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item {
+                        item (key = 1){
                             val sampleGame = state.sportsGames[0]
                             CategoryGames(
                                 games = state.sportsGames,
@@ -92,7 +92,7 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item {
+                        item (key = 2){
                             val sampleGame = state.shooterGames[0]
                             CategoryGames(
                                 games = state.shooterGames,
@@ -105,7 +105,7 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item {
+                        item (key = 3){
                             val sampleGame = state.fightingGames[0]
                             CategoryGames(
                                 games = state.fightingGames,
@@ -118,7 +118,7 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item {
+                        item(key = 4) {
                             val sampleGame = state.racingGames[0]
                             CategoryGames(
                                 games = state.racingGames,
@@ -131,7 +131,7 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item {
+                        item(key = 5) {
                             MoreCategories(
                                 categories = viewModel.categories,
                                 onCategoryClicked = {

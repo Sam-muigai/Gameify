@@ -27,6 +27,9 @@ import coil.request.ImageRequest
 import com.samkt.gameify.R
 import com.samkt.gameify.ui.theme.GameifyTheme
 import com.samkt.gameify.ui.theme.poppins
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun GameItem(
@@ -40,12 +43,17 @@ fun GameItem(
         modifier = modifier.width(130.dp).padding(horizontal = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(imageUrl)
-                .crossfade(500)
-                .build(),
-            contentDescription = null,
+        CoilImage(
+            imageModel = imageUrl,
+            shimmerParams = ShimmerParams(
+                baseColor = MaterialTheme.colorScheme.background,
+                highlightColor = MaterialTheme.colorScheme.onBackground,
+                durationMillis = 1000,
+                tilt = 25F,
+                dropOff = 0.65f,
+            ),
+            circularReveal = CircularReveal(duration = 500),
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
@@ -54,8 +62,6 @@ fun GameItem(
                 .height(160.dp)
                 .width(120.dp)
                 .clip(RoundedCornerShape(10.dp)),
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(id = R.drawable.placeholder),
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
