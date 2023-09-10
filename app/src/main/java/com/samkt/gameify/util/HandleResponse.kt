@@ -18,8 +18,7 @@ suspend fun <T> safeApiCall(
                 is HttpException -> {
                     Resources.Error(message = "Server error occurred")
                 }
-
-                else -> Resources.Error(throwable.message)
+                else -> Resources.Error(throwable.message ?: "Unexpected error occurred")
             }
         }
     }

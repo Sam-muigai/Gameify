@@ -68,18 +68,19 @@ fun HomeScreen(
                         }
                     },
                 )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    content = {
-                        item {
-                            HomeTopBar(
-                                onClick = {
-                                    navigator.navigate(SearchScreenDestination)
-                                },
-                            )
-                        }
-                        item (key = 1){
+            }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                content = {
+                    item {
+                        HomeTopBar(
+                            onClick = {
+                                navigator.navigate(SearchScreenDestination)
+                            },
+                        )
+                    }
+                    if (state.sportsGames.isNotEmpty()) {
+                        item(key = 1) {
                             val sampleGame = state.sportsGames[0]
                             CategoryGames(
                                 games = state.sportsGames,
@@ -92,7 +93,9 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item (key = 2){
+                    }
+                    if (state.shooterGames.isNotEmpty()) {
+                        item(key = 2) {
                             val sampleGame = state.shooterGames[0]
                             CategoryGames(
                                 games = state.shooterGames,
@@ -105,7 +108,9 @@ fun HomeScreen(
                                 },
                             )
                         }
-                        item (key = 3){
+                    }
+                    if (state.fightingGames.isNotEmpty()) {
+                        item(key = 3) {
                             val sampleGame = state.fightingGames[0]
                             CategoryGames(
                                 games = state.fightingGames,
@@ -118,6 +123,8 @@ fun HomeScreen(
                                 },
                             )
                         }
+                    }
+                    if (state.racingGames.isNotEmpty()) {
                         item(key = 4) {
                             val sampleGame = state.racingGames[0]
                             CategoryGames(
@@ -131,6 +138,8 @@ fun HomeScreen(
                                 },
                             )
                         }
+                    }
+                    if (state.errorMessage.isNullOrBlank() && !state.isLoading) {
                         item(key = 5) {
                             MoreCategories(
                                 categories = viewModel.categories,
@@ -139,9 +148,10 @@ fun HomeScreen(
                                 },
                             )
                         }
-                    },
-                )
-            }
+                    }
+                },
+            )
+
             state.errorMessage?.let {
                 Text(text = it)
             }

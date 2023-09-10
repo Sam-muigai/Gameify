@@ -6,8 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -16,10 +18,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGameifyApi(): FreeToGameApi {
+    fun provideOkHttpClient():OkHttpClient{
+        return OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15,TimeUnit.SECONDS)
+            .writeTimeout(15,TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGameifyApi(okHttpClient: OkHttpClient): FreeToGameApi {
         return Retrofit
             .Builder()
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(FreeToGameApi::class.java)
