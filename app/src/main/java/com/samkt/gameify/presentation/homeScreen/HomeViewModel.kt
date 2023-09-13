@@ -29,11 +29,12 @@ class HomeViewModel @Inject constructor(
         getAllGames()
     }
 
-    private fun getAllGames() {
+    fun getAllGames() {
         viewModelScope.launch {
             _homeScreenState.update {
                 it.copy(
                     isLoading = true,
+                    errorMessage = null
                 )
             }
             repository.getAllGames().onEach { result ->

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
@@ -44,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.samkt.gameify.R
+import com.samkt.gameify.presentation.components.ErrorAnimation
 import com.samkt.gameify.presentation.gameScreen.components.GameImage
 import com.samkt.gameify.presentation.navigation.NavigationTransition
 import com.samkt.gameify.ui.theme.poppins
@@ -76,10 +77,20 @@ fun GameScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(text = it)
+                Column(
+                    modifier = Modifier.clickable { viewModel.getGame(id) },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    ErrorAnimation(modifier = Modifier.size(200.dp))
+                    Text(
+                        text = "$it. Tap to retry",
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontFamily = poppins,
+                        ),
+                    )
+                }
             }
         }
-
         if (state.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -94,20 +105,23 @@ fun GameScreen(
                     .verticalScroll(rememberScrollState()),
             ) {
                 val screenshots = state.data?.screenshots ?: emptyList()
-                Box {
-                    GameImage(
-                        screenShots = screenshots,
-                        context = context,
-                    )
-                    FloatingActionButton(
-                        modifier = Modifier.align(Alignment.TopStart).size(90.dp).padding(25.dp),
-                        onClick = { navigator.popBackStack() },
-                        shape = CircleShape,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "navigate back",
+                if (state.errorMessage.isNullOrBlank()) {
+                    Box {
+                        GameImage(
+                            screenShots = screenshots,
+                            context = context,
                         )
+                        FloatingActionButton(
+                            modifier = Modifier.align(Alignment.TopStart).size(90.dp)
+                                .padding(25.dp),
+                            onClick = { navigator.popBackStack() },
+                            shape = CircleShape,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "navigate back",
+                            )
+                        }
                     }
                 }
                 Column(

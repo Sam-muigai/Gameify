@@ -30,6 +30,7 @@ class CategoryViewModel @Inject constructor(
             _categoryScreenUiState.update {
                 it.copy(
                     isLoading = true,
+                    errorMessage = null
                 )
             }
             repository.getGameByCategory(category).onEach { result ->

@@ -1,11 +1,14 @@
 package com.samkt.gameify.presentation.categoryScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -27,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.samkt.gameify.presentation.components.ErrorAnimation
 import com.samkt.gameify.presentation.components.GameCategoryItem
 import com.samkt.gameify.presentation.destinations.GameScreenDestination
 import com.samkt.gameify.presentation.navigation.NavigationTransition
@@ -113,12 +117,18 @@ fun CategoryScreen(
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
             state.errorMessage?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontFamily = poppins,
-                    ),
-                )
+                Column(
+                    modifier = Modifier.clickable { viewModel.getGames(category) },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    ErrorAnimation(modifier = Modifier.size(200.dp))
+                    Text(
+                        text = "$it. Tap to retry",
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontFamily = poppins,
+                        ),
+                    )
+                }
             }
         }
     }

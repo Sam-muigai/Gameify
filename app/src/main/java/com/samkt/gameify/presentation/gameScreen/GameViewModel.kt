@@ -27,6 +27,7 @@ class GameViewModel @Inject constructor(
             _gameScreenState.update {
                 it.copy(
                     isLoading = true,
+                    errorMessage = null
                 )
             }
             repository.getGameById(id).onEach { result ->
