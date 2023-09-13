@@ -15,6 +15,9 @@ This is an android that fetches Games from [freeToGame](https://www.freetogame.c
 ### Search Screen
 <img src="screenshots/search.jpeg" width="250"/>
 
+### Category Screen
+<img src="screenshots/category_screen.jpeg" width="250"/>
+
 ### Game Screen
 <img src="screenshots/game_screen.jpeg" width="250"/>
 
