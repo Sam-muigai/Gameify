@@ -3,17 +3,20 @@ This is an android that fetches Games from [freeToGame](https://www.freetogame.c
 
 ## Demo
 
+### Loading Screen
+<img src="screenshots/loading.jpeg" width="250"/>
+
 ### Home Screen
 <img src="screenshots/home.jpeg" width="250"/>
 
-### Loading Screen
-<img src="screenshots/loading.jpeg" width="250"/>
+### Error Screen
+<img src="screenshots/error_screen.jpeg" width="250"/>
 
 ### Search Screen
 <img src="screenshots/search.jpeg" width="250"/>
 
 ### Game Screen
-<img src="screenshots/game.jpeg" width="250"/>
+<img src="screenshots/game_screen.jpeg" width="250"/>
 
 ## Model-View-ViewModel
 MVVM is a software architectural pattern that separates the presentation logic (View) from the business logic (Model) and introduces a middle layer (ViewModel) to mediate communication between them. This design pattern promotes better code organization, testability, and maintainability of Android applications.
