@@ -46,12 +46,9 @@ fun CategoryScreen(
     viewModel: CategoryViewModel = hiltViewModel(),
 ) {
     val state = viewModel.categoryScreenUiState.collectAsState().value
-    LaunchedEffect(
-        key1 = true,
-        block = {
-            viewModel.getGames(category)
-        },
-    )
+    LaunchedEffect(key1 = true, block = {
+        viewModel.getGames(category)
+    })
     Scaffold { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -116,14 +113,14 @@ fun CategoryScreen(
             if (state.isLoading) {
                 CircularProgressIndicator(strokeWidth = 2.dp)
             }
-            state.errorMessage?.let {
+            if (!state.errorMessage.isNullOrBlank() && state.games.isEmpty()) {
                 Column(
                     modifier = Modifier.clickable { viewModel.getGames(category) },
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     ErrorAnimation(modifier = Modifier.size(200.dp))
                     Text(
-                        text = "$it. Tap to retry",
+                        text = "${state.errorMessage}. Tap to retry",
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontFamily = poppins,
                         ),
