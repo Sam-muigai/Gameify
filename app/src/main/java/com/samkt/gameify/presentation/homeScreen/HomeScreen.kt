@@ -139,6 +139,9 @@ fun HomeScreen(
                             )
                         }
                     }
+                    /*
+                    Show the category section if data is successfully retrieved
+                    * */
                     if (state.errorMessage.isNullOrBlank() && !state.isLoading) {
                         item(key = 5) {
                             MoreCategories(
