@@ -2,25 +2,30 @@
 This is an android that fetches Games from [freeToGame](https://www.freetogame.com/api-doc) API.It allows one to check the recommendations based on categories.Also allows one to search for games.
 
 ## Demo
-You can download the application [here](https://drive.google.com/file/d/1MCSa50GRBpQcfnBrr85DLVrz_9R-vkBp/view?usp=sharing).I will be upload in playstore later.
+You can download the application [here](https://drive.google.com/file/d/1MCSa50GRBpQcfnBrr85DLVrz_9R-vkBp/view?usp=sharing).I will upload it to the Play Store later.
 
-### Loading Screen
-<img src="screenshots/loading.jpeg" width="250"/>
-
-### Home Screen
-<img src="screenshots/home.jpeg" width="250"/>
-
-### Error Screen
-<img src="screenshots/error_screen.jpeg" width="250"/>
-
-### Search Screen
-<img src="screenshots/search.jpeg" width="250"/>
-
-### Category Screen
-<img src="screenshots/category_screen.jpeg" width="250"/>
-
-### Game Screen
-<img src="screenshots/game_screen.jpeg" width="250"/>
+<table>
+  <tr>
+    <th>Loading Screen</th>
+    <th>Home Screen</th>
+    <th>Error Screen</th>
+  </tr>
+  <tr>
+    <td><img src="screenshots/loading.jpeg" width="250" alt="Loading Screen"></td>
+    <td><img src="screenshots/home.jpeg" width="250" alt="Home Screen"></td>
+    <td><img src="screenshots/error_screen.jpeg" width="250" alt="Error Screen"></td>
+  </tr>
+  <tr>
+    <th>Search Screen</th>
+    <th>Category Screen</th>
+    <th>Game Screen</th>
+  </tr>
+  <tr>
+    <td><img src="screenshots/search.jpeg" width="250" alt="Search Screen"></td>
+    <td><img src="screenshots/category_screen.jpeg" width="250" alt="Category Screen"></td>
+    <td><img src="screenshots/game_screen.jpeg" width="250" alt="Game Screen"></td>
+  </tr>
+</table>
 
 ## Model-View-ViewModel
 MVVM is a software architectural pattern that separates the presentation logic (View) from the business logic (Model) and introduces a middle layer (ViewModel) to mediate communication between them. This design pattern promotes better code organization, testability, and maintainability of Android applications.
