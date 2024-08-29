@@ -2,7 +2,6 @@
 This is an android that fetches Games from [freeToGame](https://www.freetogame.com/api-doc) API.It allows one to check the recommendations based on categories.Also allows one to search for games.
 
 ## Demo
-You can download the application [here](https://drive.google.com/file/d/1MCSa50GRBpQcfnBrr85DLVrz_9R-vkBp/view?usp=sharing).I will upload it to the Play Store later.
 
 <table>
   <tr>
