@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.samkt.gameify.androidApp-mergeDebugResources-59:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/samuelmuigai/.gradle/caches/transforms-3/79dc3fe6cb388b22a02ba86faa4f9c9b/transformed/appcompat-1.6.1/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+[versions]
+accompanistPager = "<version>"
+core-ktx = "1.8.0"
+insetsx = "0.1.0-alpha10"
+kotlin-bom = "1.8.0"
+lifecycle-runtime-ktx = "2.3.1"
+activity-compose = "1.5.1"
+compose-bom = "2022.10.00"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+navigation-compose = "2.8.0-beta05"
+jetpack-navigation = "2.7.0-alpha07"
+ktor = "2.3.2"
+logback = "1.2.3"
+coil-compose = "2.4.0"
+coil-svg = "2.2.2"
+landscapist-coil = "2.3.6"
+timber = "5.0.1"
+lottie-compose = "6.0.1"
+androidx-activityCompose = "1.9.0"
+kotlinx-serialization-json = "1.6.3"
+android-gradle-plugin = "8.2.2"
+kotlin = "2.0.0"
+viewModel-compose = "2.8.0"
+compose-plugin = "1.6.11"
+
+
+[libraries]
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+insetsx = { module = "com.moriatsushi.insetsx:insetsx", version.ref = "insetsx" }
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose" }
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
+coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil-svg" }
+landscapist-coil = { group = "com.github.skydoves", name = "landscapist-coil3", version.ref = "landscapist-coil" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie-compose" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+lifecycle-viewModel-compose = {group = "org.jetbrains.androidx.lifecycle" , name= "lifecycle-viewmodel-compose", version.ref = "viewModel-compose"}
+jetbrains-navigation-compose = {group = "org.jetbrains.androidx.navigation", name = "navigation-compose",version.ref = "jetpack-navigation"}
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

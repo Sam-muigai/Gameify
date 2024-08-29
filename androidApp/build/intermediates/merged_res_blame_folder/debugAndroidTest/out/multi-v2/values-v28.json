@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.samkt.gameify.test.app-mergeDebugAndroidTestResources-34:/values-v28/values-v28.xml",
+            "map": [
+                {
+                    "source": "/Users/samuelmuigai/.gradle/caches/transforms-3/29c99dac726bbf779e4471e96bf4bd3e/transformed/core-1.5.0/res/values-v28/values.xml",
+                    "from": {
+                        "startLines": "4,13",
+                        "startColumns": "0,0",
+                        "startOffsets": "180,659",
+                        "endLines": "12,21",
+                        "endColumns": "8,8",
+                        "endOffsets": "658,1135"
+                    },
+                    "to": {
+                        "startLines": "2,11",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,538",
+                        "endLines": "10,19",
+                        "endColumns": "8,8",
+                        "endOffsets": "533,1014"
+                    }
+                }
+            ]
+        }
+    ]
+}
